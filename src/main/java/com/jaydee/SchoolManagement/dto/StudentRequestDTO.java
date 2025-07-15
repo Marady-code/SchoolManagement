@@ -1,15 +1,13 @@
 package com.jaydee.SchoolManagement.dto;
 
+import java.time.LocalDate;
+
 import com.jaydee.SchoolManagement.entity.GenderEnum;
 
 import lombok.Data;
 
 @Data
-public class TeacherResponseDTO {
-	
-	private Long teacherId;
-	
-	private String fullName;
+public class StudentRequestDTO {
 	
 	private String firstName;
 	
@@ -19,6 +17,11 @@ public class TeacherResponseDTO {
 	
 	private String phone_number;
 	
-	private String qualification;
+	private LocalDate date_of_birth;
 	
+	private String place_of_birth;
+	
+	private String current_place;
+	
+	private String emergencyPhone;
 }

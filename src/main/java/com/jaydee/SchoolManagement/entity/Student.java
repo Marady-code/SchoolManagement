@@ -11,19 +11,19 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "teachers")
-public class Teacher {
-
+@Table(name = "students")
+public class Student {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "teacher_id")
-	private Long teacherId;
+	@Column(name = "student_id")
+	private Long studentId;
 	
 	private String firstName;
 	
@@ -40,15 +40,10 @@ public class Teacher {
 	
 	private String current_place;
 	
-	private String qualification;
+	private String emergencyPhone;
 	
-	private LocalDate joining_date;
-	
-	private long salary;
-	
-	@OneToMany(mappedBy = "teacher")
+	@ManyToMany(mappedBy = "students")
 	private List<ClassEntity> classes;
 	
 	private LocalDateTime createAt = LocalDateTime.now();
-	
 }
