@@ -48,8 +48,20 @@ public class StudentServiceImpl implements StudentService{
 
 	@Override
 	public StudentResponseDTO updateStudent(Long studentId, StudentRequestDTO dto) {
-		// TODO Auto-generated method stub
-		return null;
+		Student existing = studentRepository.findById(studentId)
+				.orElseThrow(() -> new ResourceNotFound("Student", studentId));
+				existing.setFirstName(dto.getFirstName());
+				existing.setLastName(dto.getLastName());
+				existing.setGender(dto.getGender());
+				existing.setPhone_number(dto.getPhone_number());
+				existing.setDate_of_birth(dto.getDate_of_birth());
+				existing.setPlace_of_birth(dto.getPlace_of_birth());
+				existing.setCurrent_place(dto.getCurrent_place());
+				existing.setEmergencyPhone(dto.getEmergencyPhone());
+				
+		Student updated = studentRepository.save(existing);
+		return studentMapper.toResponseDTO(updated);
+
 	}
 
 	@Override

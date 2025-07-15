@@ -49,6 +49,9 @@ public class Teacher {
 	@OneToMany(mappedBy = "teacher")
 	private List<ClassEntity> classes;
 	
+	@OneToMany(mappedBy = "recordBy")
+	private List<Attendance> recordedAttendances;
+	
 	private LocalDateTime createAt = LocalDateTime.now();
 	
 }

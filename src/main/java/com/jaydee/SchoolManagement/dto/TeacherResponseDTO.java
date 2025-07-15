@@ -11,9 +11,9 @@ public class TeacherResponseDTO {
 	
 	private String fullName;
 	
-	private String firstName;
-	
-	private String lastName;
+//	private String firstName;
+//	
+//	private String lastName;
 	
 	private GenderEnum gender;
 	

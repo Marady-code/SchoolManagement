@@ -12,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -44,6 +45,9 @@ public class Student {
 	
 	@ManyToMany(mappedBy = "students")
 	private List<ClassEntity> classes;
+	
+	@OneToMany(mappedBy = "student")
+	private List<Attendance> studentAttendance;
 	
 	private LocalDateTime createAt = LocalDateTime.now();
 }
