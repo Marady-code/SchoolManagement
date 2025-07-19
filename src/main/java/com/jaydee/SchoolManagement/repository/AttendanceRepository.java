@@ -16,4 +16,5 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long>, J
     List<Attendance> findByClassEntityClassNameContainingIgnoreCase(String className);
     @Query("SELECT a FROM Attendance a WHERE a.classEntity.className = :className AND a.date = :date")
     List<Attendance> findByClassEntityClassNameAndDate(@Param("className") String className, @Param("date") LocalDate date);
+    boolean existsByStudentStudentIdAndClassEntityClassIdAndDate(Long studentId, Long classId, LocalDate date);
 } 

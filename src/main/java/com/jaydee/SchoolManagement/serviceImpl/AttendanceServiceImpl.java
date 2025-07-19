@@ -41,6 +41,14 @@ public class AttendanceServiceImpl implements AttendanceService {
     	
     	Teacher teacher = classEntity.getTeacher();
     	
+    	// Prevent duplicate attendance
+        boolean exists = attendanceRepository.existsByStudentStudentIdAndClassEntityClassIdAndDate(
+            requestDTO.getStudentId(), requestDTO.getClassId(), requestDTO.getDate()
+        );
+        if (exists) {
+            throw new IllegalArgumentException("Attendance already marked for this student, class, and date.");
+        }
+
     	Attendance attendance = attendanceMapper.toEntity(requestDTO);
     	attendance.setStudent(student);
     	attendance.setClassEntity(classEntity);
@@ -62,7 +70,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         attendance.setStatus(requestDTO.getStatus());
         attendance.setRemark(requestDTO.getRemark());
         // For recordBy, you may want to get the teacher from context or request
-        attendance.setRecordBy(null);
+        //attendance.setRecordBy(null);
         Attendance updated = attendanceRepository.save(attendance);
         return attendanceMapper.toResponseDTO(updated);
     }
@@ -76,6 +84,11 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public List<AttendanceResponseDTO> getAttendanceByStudentId(Long studentId) {
+        // Check if the student exists
+        if (!studentRepository.existsById(studentId)) {
+            throw new ResourceNotFound("Student not found");
+        }
+        // Fetch attendance records for the student
         return attendanceRepository.findByStudentStudentId(studentId)
                 .stream()
                 .map(attendanceMapper::toResponseDTO)
@@ -105,6 +118,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                 .map(attendanceMapper::toResponseDTO)
                 .collect(Collectors.toList());
     }
+
 
 //    @Override
 //    public List<AttendanceResponseDTO> findAll(org.springframework.data.jpa.domain.Specification<com.jaydee.SchoolManagement.entity.Attendance> spec) {

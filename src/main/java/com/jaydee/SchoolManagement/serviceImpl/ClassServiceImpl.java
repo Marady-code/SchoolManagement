@@ -65,6 +65,9 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public void deleteClass(Long classId) {
+    	if(!classRepository.existsById(classId)) {
+    		throw new ResourceNotFound("Class", classId);
+    	}
         classRepository.deleteById(classId);
     }
 
@@ -89,4 +92,26 @@ public class ClassServiceImpl implements ClassService {
         ClassEntity saved = classRepository.save(entity);
         return classMapper.toResponseDTO(saved);
     }
+
+	@Override
+	public ClassResponseDTO removeStudentFromClass(Long classId, Long studentId) {
+		ClassEntity classEntity = classRepository.findById(classId)
+				.orElseThrow(()-> new ResourceNotFound("Class not found"));
+		Student student = studentRepository.findById(studentId)
+				.orElseThrow(()-> new ResourceNotFound("Student", studentId));
+		classEntity.getStudents().remove(student);
+		classRepository.save(classEntity);
+		return classMapper.toResponseDTO(classEntity);
+	}
+
+//	@Override
+//	public ClassResponseDTO removeTeacherFromClass(Long classId, Long teacherId) {
+//		ClassEntity classEntity = classRepository.findById(classId)
+//				.orElseThrow(()-> new ResourceNotFound("Class not found"));
+//		Teacher teacher = teacherRepository.findById(teacherId)
+//				.orElseThrow(()-> new ResourceNotFound("Teacher", teacherId));
+//		//classEntity.getTeacher()
+//		classRepository.save(classEntity);
+//		return classMapper.toResponseDTO(classEntity);
+//	}
 } 

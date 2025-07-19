@@ -2,7 +2,9 @@ package com.jaydee.SchoolManagement.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,8 +45,12 @@ public class Student {
 	
 	private String emergencyPhone;
 	
+//	@ManyToOne
+//	@JoinColumn(name = "class_id")
+//	private ClassEntity classEntity;
+	
 	@ManyToMany(mappedBy = "students")
-	private List<ClassEntity> classes;
+	private Set<ClassEntity> classes = new HashSet<>();
 	
 	@OneToMany(mappedBy = "student")
 	private List<Attendance> studentAttendance;

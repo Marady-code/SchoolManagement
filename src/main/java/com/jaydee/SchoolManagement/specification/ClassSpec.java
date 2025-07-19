@@ -12,7 +12,11 @@ import lombok.Data;
 
 @Data
 public class ClassSpec implements Specification<ClassEntity> {
-    private final ClassFilter classFilter;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9080615340282103356L;
+	private final ClassFilter classFilter;
 
     @Override
     public Predicate toPredicate(Root<ClassEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {

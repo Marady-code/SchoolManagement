@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -47,6 +49,7 @@ public class Teacher {
 	private long salary;
 	
 	@OneToMany(mappedBy = "teacher")
+	@JsonIgnore
 	private List<ClassEntity> classes;
 	
 	@OneToMany(mappedBy = "recordBy")

@@ -60,4 +60,9 @@ public class ClassController {
     public ResponseEntity<ClassResponseDTO> assignStudent(@PathVariable Long classId, @PathVariable Long studentId) {
         return ResponseEntity.ok(classService.assignStudent(classId, studentId));
     }
+    
+    @DeleteMapping("/{classId}/remove-student/{studentId}")
+    public ResponseEntity<ClassResponseDTO> removeStudentFromClass(@PathVariable Long classId,@PathVariable Long studentId){
+    	return ResponseEntity.ok(classService.removeStudentFromClass(classId, studentId));
+    }
 } 

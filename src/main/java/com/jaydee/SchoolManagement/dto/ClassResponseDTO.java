@@ -19,5 +19,6 @@ public class ClassResponseDTO {
 	private LocalDate startDate;
 	
 	private TeacherResponseDTO teacher;
+	
 	private List<StudentResponseDTO> students;
 }

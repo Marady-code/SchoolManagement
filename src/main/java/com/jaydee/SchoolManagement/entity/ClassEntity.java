@@ -38,12 +38,15 @@ public class ClassEntity {
 	private LocalDate startDate;
 	
 	@ManyToMany
-	@JoinTable(
-			name = "class_students",
-			joinColumns = @JoinColumn(name = "class_id"),
-			inverseJoinColumns = @JoinColumn(name = "student_id")
-	)
-	private List<Student> students;
+    @JoinTable(
+        name = "class_students",
+        joinColumns = @JoinColumn(name = "class_id"),
+        inverseJoinColumns = @JoinColumn(name = "student_id")
+    )
+    private List<Student> students;
+	
+//	@ManyToMany(mappedBy = "classes")
+//	private Set<Student> students = new HashSet<>();
 	
 	@ManyToOne
 	@JoinColumn(name = "teacher_id")
