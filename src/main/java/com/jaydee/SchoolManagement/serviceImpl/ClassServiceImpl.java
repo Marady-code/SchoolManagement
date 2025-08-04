@@ -1,5 +1,6 @@
 package com.jaydee.SchoolManagement.serviceImpl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,8 @@ import com.jaydee.SchoolManagement.repository.ClassRepository;
 import com.jaydee.SchoolManagement.repository.StudentRepository;
 import com.jaydee.SchoolManagement.repository.TeacherRepository;
 import com.jaydee.SchoolManagement.service.ClassService;
+import com.jaydee.SchoolManagement.specification.ClassFilter;
+import com.jaydee.SchoolManagement.specification.ClassSpec;
 
 import lombok.RequiredArgsConstructor;
 
@@ -114,4 +117,93 @@ public class ClassServiceImpl implements ClassService {
 //		classRepository.save(classEntity);
 //		return classMapper.toResponseDTO(classEntity);
 //	}
+	
+	// New JPA Specification methods
+	@Override
+	public List<ClassResponseDTO> findClassesByFilter(ClassFilter filter) {
+		ClassSpec spec = new ClassSpec(filter);
+		return classRepository.findAll(spec)
+				.stream()
+				.map(classMapper::toResponseDTO)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<ClassResponseDTO> findClassesByName(String className) {
+		ClassFilter filter = new ClassFilter();
+		filter.setClassName(className);
+		return findClassesByFilter(filter);
+	}
+
+	@Override
+	public List<ClassResponseDTO> findClassesByTeacher(String teacherName) {
+		ClassFilter filter = new ClassFilter();
+		filter.setTeacherName(teacherName);
+		return findClassesByFilter(filter);
+	}
+
+	@Override
+	public List<ClassResponseDTO> findClassesByTeacherId(Long teacherId) {
+		ClassFilter filter = new ClassFilter();
+		filter.setTeacherId(teacherId);
+		return findClassesByFilter(filter);
+	}
+
+	@Override
+	public List<ClassResponseDTO> findClassesByRoomNumber(String roomNumber) {
+		ClassFilter filter = new ClassFilter();
+		filter.setRoomNumber(roomNumber);
+		return findClassesByFilter(filter);
+	}
+
+	@Override
+	public List<ClassResponseDTO> findClassesByDay(String classDay) {
+		ClassFilter filter = new ClassFilter();
+		filter.setClassDay(classDay);
+		return findClassesByFilter(filter);
+	}
+
+	@Override
+	public List<ClassResponseDTO> findClassesByTime(String classTime) {
+		ClassFilter filter = new ClassFilter();
+		filter.setClassTime(classTime);
+		return findClassesByFilter(filter);
+	}
+
+	@Override
+	public List<ClassResponseDTO> findClassesByStartDateRange(LocalDate dateFrom, LocalDate dateTo) {
+		ClassFilter filter = new ClassFilter();
+		filter.setStartDateFrom(dateFrom);
+		filter.setStartDateTo(dateTo);
+		return findClassesByFilter(filter);
+	}
+
+	@Override
+	public List<ClassResponseDTO> findClassesByStudent(String studentName) {
+		ClassFilter filter = new ClassFilter();
+		filter.setStudentName(studentName);
+		return findClassesByFilter(filter);
+	}
+
+	@Override
+	public List<ClassResponseDTO> findClassesByStudentId(Long studentId) {
+		ClassFilter filter = new ClassFilter();
+		filter.setStudentId(studentId);
+		return findClassesByFilter(filter);
+	}
+
+	@Override
+	public List<ClassResponseDTO> findActiveClasses() {
+		ClassFilter filter = new ClassFilter();
+		filter.setIsActive(true);
+		return findClassesByFilter(filter);
+	}
+
+	@Override
+	public List<ClassResponseDTO> findClassesByCreationDateRange(LocalDate dateFrom, LocalDate dateTo) {
+		ClassFilter filter = new ClassFilter();
+		filter.setCreatedFrom(dateFrom);
+		filter.setCreatedTo(dateTo);
+		return findClassesByFilter(filter);
+	}
 } 

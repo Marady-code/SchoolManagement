@@ -1,5 +1,6 @@
 package com.jaydee.SchoolManagement.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -11,11 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jaydee.SchoolManagement.dto.ClassRequestDTO;
 import com.jaydee.SchoolManagement.dto.ClassResponseDTO;
 import com.jaydee.SchoolManagement.service.ClassService;
+import com.jaydee.SchoolManagement.specification.ClassFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -64,5 +67,75 @@ public class ClassController {
     @DeleteMapping("/{classId}/remove-student/{studentId}")
     public ResponseEntity<ClassResponseDTO> removeStudentFromClass(@PathVariable Long classId,@PathVariable Long studentId){
     	return ResponseEntity.ok(classService.removeStudentFromClass(classId, studentId));
+    }
+    
+    // New endpoints using JPA Specifications
+    
+    @PostMapping("/filter")
+    public ResponseEntity<List<ClassResponseDTO>> findClassesByFilter(@RequestBody ClassFilter filter) {
+        return ResponseEntity.ok(classService.findClassesByFilter(filter));
+    }
+    
+    @GetMapping("/search/name")
+    public ResponseEntity<List<ClassResponseDTO>> findClassesByName(@RequestParam String className) {
+        return ResponseEntity.ok(classService.findClassesByName(className));
+    }
+    
+    @GetMapping("/search/teacher")
+    public ResponseEntity<List<ClassResponseDTO>> findClassesByTeacher(@RequestParam String teacherName) {
+        return ResponseEntity.ok(classService.findClassesByTeacher(teacherName));
+    }
+    
+    @GetMapping("/search/teacher/{teacherId}")
+    public ResponseEntity<List<ClassResponseDTO>> findClassesByTeacherId(@PathVariable Long teacherId) {
+        return ResponseEntity.ok(classService.findClassesByTeacherId(teacherId));
+    }
+    
+    @GetMapping("/search/room")
+    public ResponseEntity<List<ClassResponseDTO>> findClassesByRoomNumber(@RequestParam String roomNumber) {
+        return ResponseEntity.ok(classService.findClassesByRoomNumber(roomNumber));
+    }
+    
+    @GetMapping("/search/day")
+    public ResponseEntity<List<ClassResponseDTO>> findClassesByDay(@RequestParam String classDay) {
+        return ResponseEntity.ok(classService.findClassesByDay(classDay));
+    }
+    
+    @GetMapping("/search/time")
+    public ResponseEntity<List<ClassResponseDTO>> findClassesByTime(@RequestParam String classTime) {
+        return ResponseEntity.ok(classService.findClassesByTime(classTime));
+    }
+    
+    @GetMapping("/search/start-date-range")
+    public ResponseEntity<List<ClassResponseDTO>> findClassesByStartDateRange(
+            @RequestParam String dateFrom, 
+            @RequestParam String dateTo) {
+        LocalDate from = LocalDate.parse(dateFrom);
+        LocalDate to = LocalDate.parse(dateTo);
+        return ResponseEntity.ok(classService.findClassesByStartDateRange(from, to));
+    }
+    
+    @GetMapping("/search/student")
+    public ResponseEntity<List<ClassResponseDTO>> findClassesByStudent(@RequestParam String studentName) {
+        return ResponseEntity.ok(classService.findClassesByStudent(studentName));
+    }
+    
+    @GetMapping("/search/student/{studentId}")
+    public ResponseEntity<List<ClassResponseDTO>> findClassesByStudentId(@PathVariable Long studentId) {
+        return ResponseEntity.ok(classService.findClassesByStudentId(studentId));
+    }
+    
+    @GetMapping("/active")
+    public ResponseEntity<List<ClassResponseDTO>> findActiveClasses() {
+        return ResponseEntity.ok(classService.findActiveClasses());
+    }
+    
+    @GetMapping("/search/created-range")
+    public ResponseEntity<List<ClassResponseDTO>> findClassesByCreationDateRange(
+            @RequestParam String dateFrom, 
+            @RequestParam String dateTo) {
+        LocalDate from = LocalDate.parse(dateFrom);
+        LocalDate to = LocalDate.parse(dateTo);
+        return ResponseEntity.ok(classService.findClassesByCreationDateRange(from, to));
     }
 } 

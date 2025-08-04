@@ -1,5 +1,6 @@
 package com.jaydee.SchoolManagement.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jaydee.SchoolManagement.dto.StudentRequestDTO;
 import com.jaydee.SchoolManagement.dto.StudentResponseDTO;
+import com.jaydee.SchoolManagement.entity.GenderEnum;
 import com.jaydee.SchoolManagement.service.StudentService;
+import com.jaydee.SchoolManagement.specification.StudentFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -55,5 +59,68 @@ public class StudentController {
 	public ResponseEntity<?> delete(@PathVariable Long studentId){
 		studentService.deleteStudent(studentId);
 		return ResponseEntity.noContent().build();
+	}
+	
+	// New endpoints using JPA Specifications
+	
+	@PostMapping("/filter")
+	public ResponseEntity<List<StudentResponseDTO>> findStudentsByFilter(@RequestBody StudentFilter filter) {
+		return ResponseEntity.ok(studentService.findStudentsByFilter(filter));
+	}
+	
+	@GetMapping("/search/name")
+	public ResponseEntity<List<StudentResponseDTO>> findStudentsByName(@RequestParam String name) {
+		return ResponseEntity.ok(studentService.findStudentsByName(name));
+	}
+	
+	@GetMapping("/search/fullname")
+	public ResponseEntity<List<StudentResponseDTO>> findStudentsByFullName(@RequestParam String fullName) {
+		return ResponseEntity.ok(studentService.findStudentsByFullName(fullName));
+	}
+	
+	@GetMapping("/search/gender/{gender}")
+	public ResponseEntity<List<StudentResponseDTO>> findStudentsByGender(@PathVariable String gender) {
+		GenderEnum genderEnum = GenderEnum.valueOf(gender.toUpperCase());
+		return ResponseEntity.ok(studentService.findStudentsByGender(genderEnum));
+	}
+	
+	@GetMapping("/search/age-range")
+	public ResponseEntity<List<StudentResponseDTO>> findStudentsByAgeRange(
+			@RequestParam Integer ageFrom, 
+			@RequestParam Integer ageTo) {
+		return ResponseEntity.ok(studentService.findStudentsByAgeRange(ageFrom, ageTo));
+	}
+	
+	@GetMapping("/search/class")
+	public ResponseEntity<List<StudentResponseDTO>> findStudentsByClass(@RequestParam String className) {
+		return ResponseEntity.ok(studentService.findStudentsByClass(className));
+	}
+	
+	@GetMapping("/search/phone")
+	public ResponseEntity<List<StudentResponseDTO>> findStudentsByPhoneNumber(@RequestParam String phoneNumber) {
+		return ResponseEntity.ok(studentService.findStudentsByPhoneNumber(phoneNumber));
+	}
+	
+	@GetMapping("/search/place")
+	public ResponseEntity<List<StudentResponseDTO>> findStudentsByPlace(@RequestParam String place) {
+		return ResponseEntity.ok(studentService.findStudentsByPlace(place));
+	}
+	
+	@GetMapping("/search/dob-range")
+	public ResponseEntity<List<StudentResponseDTO>> findStudentsByDateOfBirthRange(
+			@RequestParam String dateFrom, 
+			@RequestParam String dateTo) {
+		LocalDate from = LocalDate.parse(dateFrom);
+		LocalDate to = LocalDate.parse(dateTo);
+		return ResponseEntity.ok(studentService.findStudentsByDateOfBirthRange(from, to));
+	}
+	
+	@GetMapping("/search/created-range")
+	public ResponseEntity<List<StudentResponseDTO>> findStudentsByCreationDateRange(
+			@RequestParam String dateFrom, 
+			@RequestParam String dateTo) {
+		LocalDate from = LocalDate.parse(dateFrom);
+		LocalDate to = LocalDate.parse(dateTo);
+		return ResponseEntity.ok(studentService.findStudentsByCreationDateRange(from, to));
 	}
 }

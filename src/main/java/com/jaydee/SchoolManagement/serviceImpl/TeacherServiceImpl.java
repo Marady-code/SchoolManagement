@@ -1,5 +1,6 @@
 package com.jaydee.SchoolManagement.serviceImpl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,11 +9,14 @@ import org.springframework.stereotype.Service;
 
 import com.jaydee.SchoolManagement.dto.TeacherRequestDTO;
 import com.jaydee.SchoolManagement.dto.TeacherResponseDTO;
+import com.jaydee.SchoolManagement.entity.GenderEnum;
 import com.jaydee.SchoolManagement.entity.Teacher;
 import com.jaydee.SchoolManagement.exception.ResourceNotFound;
 import com.jaydee.SchoolManagement.mapper.TeacherMapper;
 import com.jaydee.SchoolManagement.repository.TeacherRepository;
 import com.jaydee.SchoolManagement.service.TeacherService;
+import com.jaydee.SchoolManagement.specification.TeacherFilter;
+import com.jaydee.SchoolManagement.specification.TeacherSpec;
 
 import lombok.RequiredArgsConstructor;
 
@@ -73,4 +77,108 @@ public class TeacherServiceImpl implements TeacherService{
 		
 	}
 	
+	// New JPA Specification methods
+	@Override
+	public List<TeacherResponseDTO> findTeachersByFilter(TeacherFilter filter) {
+		TeacherSpec spec = new TeacherSpec(filter);
+		return teacherRepository.findAll(spec)
+				.stream()
+				.map(teacherMapper::toResponseDTO)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<TeacherResponseDTO> findTeachersByName(String name) {
+		TeacherFilter filter = new TeacherFilter();
+		filter.setFirstName(name);
+		return findTeachersByFilter(filter);
+	}
+
+	@Override
+	public List<TeacherResponseDTO> findTeachersByFullName(String fullName) {
+		TeacherFilter filter = new TeacherFilter();
+		filter.setFullName(fullName);
+		return findTeachersByFilter(filter);
+	}
+
+	@Override
+	public List<TeacherResponseDTO> findTeachersByGender(GenderEnum gender) {
+		TeacherFilter filter = new TeacherFilter();
+		filter.setGender(gender);
+		return findTeachersByFilter(filter);
+	}
+
+	@Override
+	public List<TeacherResponseDTO> findTeachersByQualification(String qualification) {
+		TeacherFilter filter = new TeacherFilter();
+		filter.setQualification(qualification);
+		return findTeachersByFilter(filter);
+	}
+
+	@Override
+	public List<TeacherResponseDTO> findTeachersBySalaryRange(Long salaryFrom, Long salaryTo) {
+		TeacherFilter filter = new TeacherFilter();
+		filter.setSalaryFrom(salaryFrom);
+		filter.setSalaryTo(salaryTo);
+		return findTeachersByFilter(filter);
+	}
+
+	@Override
+	public List<TeacherResponseDTO> findTeachersByExperienceRange(Integer experienceFrom, Integer experienceTo) {
+		TeacherFilter filter = new TeacherFilter();
+		filter.setExperienceYearsFrom(experienceFrom);
+		filter.setExperienceYearsTo(experienceTo);
+		return findTeachersByFilter(filter);
+	}
+
+	@Override
+	public List<TeacherResponseDTO> findTeachersByJoiningDateRange(LocalDate dateFrom, LocalDate dateTo) {
+		TeacherFilter filter = new TeacherFilter();
+		filter.setJoiningDateFrom(dateFrom);
+		filter.setJoiningDateTo(dateTo);
+		return findTeachersByFilter(filter);
+	}
+
+	@Override
+	public List<TeacherResponseDTO> findTeachersByAgeRange(Integer ageFrom, Integer ageTo) {
+		TeacherFilter filter = new TeacherFilter();
+		filter.setAgeFrom(ageFrom);
+		filter.setAgeTo(ageTo);
+		return findTeachersByFilter(filter);
+	}
+
+	@Override
+	public List<TeacherResponseDTO> findTeachersByClass(String className) {
+		TeacherFilter filter = new TeacherFilter();
+		filter.setClassName(className);
+		return findTeachersByFilter(filter);
+	}
+
+	@Override
+	public List<TeacherResponseDTO> findTeachersByStudent(String studentName) {
+		TeacherFilter filter = new TeacherFilter();
+		filter.setStudentName(studentName);
+		return findTeachersByFilter(filter);
+	}
+
+	@Override
+	public List<TeacherResponseDTO> findActiveTeachers() {
+		TeacherFilter filter = new TeacherFilter();
+		filter.setIsActive(true);
+		return findTeachersByFilter(filter);
+	}
+
+	@Override
+	public List<TeacherResponseDTO> findTeachersByPlace(String place) {
+		TeacherFilter filter = new TeacherFilter();
+		filter.setCurrentPlace(place);
+		return findTeachersByFilter(filter);
+	}
+
+	@Override
+	public List<TeacherResponseDTO> findTeachersByPhoneNumber(String phoneNumber) {
+		TeacherFilter filter = new TeacherFilter();
+		filter.setPhoneNumber(phoneNumber);
+		return findTeachersByFilter(filter);
+	}
 }

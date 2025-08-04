@@ -1,5 +1,6 @@
 package com.jaydee.SchoolManagement.serviceImpl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.jaydee.SchoolManagement.dto.AttendanceRequestDTO;
 import com.jaydee.SchoolManagement.dto.AttendanceResponseDTO;
 import com.jaydee.SchoolManagement.entity.Attendance;
+import com.jaydee.SchoolManagement.entity.AttendanceStatus;
 import com.jaydee.SchoolManagement.entity.ClassEntity;
 import com.jaydee.SchoolManagement.entity.Student;
 import com.jaydee.SchoolManagement.entity.Teacher;
@@ -18,6 +20,8 @@ import com.jaydee.SchoolManagement.repository.AttendanceRepository;
 import com.jaydee.SchoolManagement.repository.ClassRepository;
 import com.jaydee.SchoolManagement.repository.StudentRepository;
 import com.jaydee.SchoolManagement.service.AttendanceService;
+import com.jaydee.SchoolManagement.specification.AttendanceFilter;
+import com.jaydee.SchoolManagement.specification.AttendanceSpec;
 
 import lombok.RequiredArgsConstructor;
 
@@ -83,6 +87,14 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
+    public List<AttendanceResponseDTO> getAttendanceByStudentFullName(String fullName) {
+        return attendanceRepository.findByStudentFullName(fullName)
+                .stream()
+                .map(attendanceMapper::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<AttendanceResponseDTO> getAttendanceByStudentId(Long studentId) {
         // Check if the student exists
         if (!studentRepository.existsById(studentId)) {
@@ -95,13 +107,14 @@ public class AttendanceServiceImpl implements AttendanceService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<AttendanceResponseDTO> getAttendanceByStudentName(String name) {
-        return attendanceRepository.findByStudentFirstNameContainingIgnoreCaseOrStudentLastNameContainingIgnoreCase(name, name)
-                .stream()
-                .map(attendanceMapper::toResponseDTO)
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<AttendanceResponseDTO> getAttendanceByStudentName(String name) {
+//        return attendanceRepository.findByStudentFirstNameContainingIgnoreCaseOrStudentLastNameContainingIgnoreCase(name, name)
+//                .stream()
+//                .map(attendanceMapper::toResponseDTO)
+//                .collect(Collectors.toList());
+//    }
+
 
     @Override
     public List<AttendanceResponseDTO> getAttendanceByClassName(String className) {
@@ -119,12 +132,65 @@ public class AttendanceServiceImpl implements AttendanceService {
                 .collect(Collectors.toList());
     }
 
+    // New JPA Specification methods
+    @Override
+    public List<AttendanceResponseDTO> findAttendancesByFilter(AttendanceFilter filter) {
+        AttendanceSpec spec = new AttendanceSpec(filter);
+        return attendanceRepository.findAll(spec)
+                .stream()
+                .map(attendanceMapper::toResponseDTO)
+                .collect(Collectors.toList());
+    }
 
-//    @Override
-//    public List<AttendanceResponseDTO> findAll(org.springframework.data.jpa.domain.Specification<com.jaydee.SchoolManagement.entity.Attendance> spec) {
-//        return attendanceRepository.findAll(spec)
-//                .stream()
-//                .map(attendanceMapper::toResponseDTO)
-//                .collect(Collectors.toList());
-//    }
+    @Override
+    public List<AttendanceResponseDTO> findAttendancesByStudentName(String studentName) {
+        AttendanceFilter filter = new AttendanceFilter();
+        filter.setStudentName(studentName);
+        return findAttendancesByFilter(filter);
+    }
+
+    @Override
+    public List<AttendanceResponseDTO> findAttendancesByDateRange(LocalDate dateFrom, LocalDate dateTo) {
+        AttendanceFilter filter = new AttendanceFilter();
+        filter.setDateFrom(dateFrom);
+        filter.setDateTo(dateTo);
+        return findAttendancesByFilter(filter);
+    }
+
+    @Override
+    public List<AttendanceResponseDTO> findAttendancesByStatus(String status) {
+        AttendanceFilter filter = new AttendanceFilter();
+        filter.setStatus(AttendanceStatus.valueOf(status.toUpperCase()));
+        return findAttendancesByFilter(filter);
+    }
+
+    @Override
+    public List<AttendanceResponseDTO> findPresentAttendances() {
+        AttendanceFilter filter = new AttendanceFilter();
+        filter.setIsPresent(true);
+        return findAttendancesByFilter(filter);
+    }
+
+    @Override
+    public List<AttendanceResponseDTO> findAbsentAttendances() {
+        AttendanceFilter filter = new AttendanceFilter();
+        filter.setIsPresent(false);
+        return findAttendancesByFilter(filter);
+    }
+
+    @Override
+    public List<AttendanceResponseDTO> findAttendancesByTeacherName(String teacherName) {
+        AttendanceFilter filter = new AttendanceFilter();
+        filter.setTeacherName(teacherName);
+        return findAttendancesByFilter(filter);
+    }
+
+    @Override
+    public List<AttendanceResponseDTO> findAttendancesByClassAndDateRange(String className, LocalDate dateFrom, LocalDate dateTo) {
+        AttendanceFilter filter = new AttendanceFilter();
+        filter.setClassName(className);
+        filter.setDateFrom(dateFrom);
+        filter.setDateTo(dateTo);
+        return findAttendancesByFilter(filter);
+    }
 } 

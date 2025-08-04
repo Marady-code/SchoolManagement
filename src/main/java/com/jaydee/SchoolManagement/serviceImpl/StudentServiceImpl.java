@@ -1,5 +1,6 @@
 package com.jaydee.SchoolManagement.serviceImpl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,11 +9,14 @@ import org.springframework.stereotype.Service;
 
 import com.jaydee.SchoolManagement.dto.StudentRequestDTO;
 import com.jaydee.SchoolManagement.dto.StudentResponseDTO;
+import com.jaydee.SchoolManagement.entity.GenderEnum;
 import com.jaydee.SchoolManagement.entity.Student;
 import com.jaydee.SchoolManagement.exception.ResourceNotFound;
 import com.jaydee.SchoolManagement.mapper.StudentMapper;
 import com.jaydee.SchoolManagement.repository.StudentRepository;
 import com.jaydee.SchoolManagement.service.StudentService;
+import com.jaydee.SchoolManagement.specification.StudentFilter;
+import com.jaydee.SchoolManagement.specification.StudentSpec;
 
 import lombok.RequiredArgsConstructor;
 
@@ -72,4 +76,86 @@ public class StudentServiceImpl implements StudentService{
 		studentRepository.delete(student);
 	}
 
+	// New JPA Specification methods
+	@Override
+	public List<StudentResponseDTO> findStudentsByFilter(StudentFilter filter) {
+		StudentSpec spec = new StudentSpec(filter);
+		return studentRepository.findAll(spec)
+				.stream()
+				.map(studentMapper::toResponseDTO)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<StudentResponseDTO> findStudentsByName(String name) {
+		StudentFilter filter = new StudentFilter();
+		filter.setFirstName(name);
+		return findStudentsByFilter(filter);
+	}
+
+	@Override
+	public List<StudentResponseDTO> findStudentsByFullName(String fullName) {
+		StudentFilter filter = new StudentFilter();
+		filter.setFullName(fullName);
+		return findStudentsByFilter(filter);
+	}
+
+	@Override
+	public List<StudentResponseDTO> findStudentsByGender(GenderEnum gender) {
+		StudentFilter filter = new StudentFilter();
+		filter.setGender(gender);
+		return findStudentsByFilter(filter);
+	}
+
+	@Override
+	public List<StudentResponseDTO> findStudentsByAgeRange(Integer ageFrom, Integer ageTo) {
+		StudentFilter filter = new StudentFilter();
+		filter.setAgeFrom(ageFrom);
+		filter.setAgeTo(ageTo);
+		return findStudentsByFilter(filter);
+	}
+
+	@Override
+	public List<StudentResponseDTO> findStudentsByClass(String className) {
+		StudentFilter filter = new StudentFilter();
+		filter.setClassName(className);
+		return findStudentsByFilter(filter);
+	}
+
+	@Override
+	public List<StudentResponseDTO> findStudentsByTeacher(String teacherName) {
+		StudentFilter filter = new StudentFilter();
+		filter.setTeacherId(null); // This would need to be implemented differently
+		return findStudentsByFilter(filter);
+	}
+
+	@Override
+	public List<StudentResponseDTO> findStudentsByPhoneNumber(String phoneNumber) {
+		StudentFilter filter = new StudentFilter();
+		filter.setPhoneNumber(phoneNumber);
+		return findStudentsByFilter(filter);
+	}
+
+	@Override
+	public List<StudentResponseDTO> findStudentsByPlace(String place) {
+		StudentFilter filter = new StudentFilter();
+		filter.setCurrentPlace(place);
+		return findStudentsByFilter(filter);
+	}
+
+	@Override
+	public List<StudentResponseDTO> findStudentsByDateOfBirthRange(LocalDate dateFrom, LocalDate dateTo) {
+		StudentFilter filter = new StudentFilter();
+		filter.setDateOfBirthFrom(dateFrom);
+		filter.setDateOfBirthTo(dateTo);
+		return findStudentsByFilter(filter);
+	}
+
+	@Override
+	public List<StudentResponseDTO> findStudentsByCreationDateRange(LocalDate dateFrom, LocalDate dateTo) {
+		StudentFilter filter = new StudentFilter();
+		filter.setCreatedFrom(dateFrom);
+		filter.setCreatedTo(dateTo);
+		return findStudentsByFilter(filter);
+	}
 }

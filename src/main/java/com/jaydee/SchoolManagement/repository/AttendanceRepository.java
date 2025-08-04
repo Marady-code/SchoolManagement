@@ -17,4 +17,9 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long>, J
     @Query("SELECT a FROM Attendance a WHERE a.classEntity.className = :className AND a.date = :date")
     List<Attendance> findByClassEntityClassNameAndDate(@Param("className") String className, @Param("date") LocalDate date);
     boolean existsByStudentStudentIdAndClassEntityClassIdAndDate(Long studentId, Long classId, LocalDate date);
+
+    @Query("SELECT a FROM Attendance a WHERE " +
+            "LOWER(CONCAT(a.student.firstName, ' ', a.student.lastName)) LIKE LOWER(CONCAT('%', :fullName, '%'))")
+    List<Attendance> findByStudentFullName(@Param("fullName") String fullName);
+
 } 

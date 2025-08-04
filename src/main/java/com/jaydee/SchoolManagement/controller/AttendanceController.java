@@ -1,5 +1,6 @@
 package com.jaydee.SchoolManagement.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jaydee.SchoolManagement.dto.AttendanceRequestDTO;
 import com.jaydee.SchoolManagement.dto.AttendanceResponseDTO;
 import com.jaydee.SchoolManagement.service.AttendanceService;
+import com.jaydee.SchoolManagement.specification.AttendanceFilter;
 
 import lombok.RequiredArgsConstructor;
 
@@ -39,7 +41,7 @@ public class AttendanceController {
 
     @GetMapping("/student/name/{name}")
     public ResponseEntity<List<AttendanceResponseDTO>> getAttendanceByStudentName(@PathVariable String name) {
-        return ResponseEntity.ok(attendanceService.getAttendanceByStudentName(name));
+        return ResponseEntity.ok(attendanceService.findAttendancesByStudentName(name));
     }
 
     @GetMapping("/class/{className}")
@@ -61,5 +63,56 @@ public class AttendanceController {
     @DeleteMapping("/{id}")
     public void deleteAttendance(@PathVariable Long id) {
         attendanceService.deleteAttendance(id);
+    }
+    
+    // New endpoints using JPA Specifications
+    
+    @PostMapping("/filter")
+    public ResponseEntity<List<AttendanceResponseDTO>> findAttendancesByFilter(@RequestBody AttendanceFilter filter) {
+        return ResponseEntity.ok(attendanceService.findAttendancesByFilter(filter));
+    }
+    
+    @GetMapping("/search/student")
+    public ResponseEntity<List<AttendanceResponseDTO>> findAttendancesByStudentName(@RequestParam String studentName) {
+        return ResponseEntity.ok(attendanceService.findAttendancesByStudentName(studentName));
+    }
+    
+    @GetMapping("/search/date-range")
+    public ResponseEntity<List<AttendanceResponseDTO>> findAttendancesByDateRange(
+            @RequestParam String dateFrom, 
+            @RequestParam String dateTo) {
+        LocalDate from = LocalDate.parse(dateFrom);
+        LocalDate to = LocalDate.parse(dateTo);
+        return ResponseEntity.ok(attendanceService.findAttendancesByDateRange(from, to));
+    }
+    
+    @GetMapping("/search/status/{status}")
+    public ResponseEntity<List<AttendanceResponseDTO>> findAttendancesByStatus(@PathVariable String status) {
+        return ResponseEntity.ok(attendanceService.findAttendancesByStatus(status));
+    }
+    
+    @GetMapping("/present")
+    public ResponseEntity<List<AttendanceResponseDTO>> findPresentAttendances() {
+        return ResponseEntity.ok(attendanceService.findPresentAttendances());
+    }
+    
+    @GetMapping("/absent")
+    public ResponseEntity<List<AttendanceResponseDTO>> findAbsentAttendances() {
+        return ResponseEntity.ok(attendanceService.findAbsentAttendances());
+    }
+    
+    @GetMapping("/search/teacher")
+    public ResponseEntity<List<AttendanceResponseDTO>> findAttendancesByTeacherName(@RequestParam String teacherName) {
+        return ResponseEntity.ok(attendanceService.findAttendancesByTeacherName(teacherName));
+    }
+    
+    @GetMapping("/search/class-date-range")
+    public ResponseEntity<List<AttendanceResponseDTO>> findAttendancesByClassAndDateRange(
+            @RequestParam String className,
+            @RequestParam String dateFrom, 
+            @RequestParam String dateTo) {
+        LocalDate from = LocalDate.parse(dateFrom);
+        LocalDate to = LocalDate.parse(dateTo);
+        return ResponseEntity.ok(attendanceService.findAttendancesByClassAndDateRange(className, from, to));
     }
 } 
