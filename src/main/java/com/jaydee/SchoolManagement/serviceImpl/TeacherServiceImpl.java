@@ -154,19 +154,19 @@ public class TeacherServiceImpl implements TeacherService{
 		return findTeachersByFilter(filter);
 	}
 
-	@Override
-	public List<TeacherResponseDTO> findTeachersByStudent(String studentName) {
-		TeacherFilter filter = new TeacherFilter();
-		filter.setStudentName(studentName);
-		return findTeachersByFilter(filter);
-	}
-
-	@Override
-	public List<TeacherResponseDTO> findActiveTeachers() {
-		TeacherFilter filter = new TeacherFilter();
-		filter.setIsActive(true);
-		return findTeachersByFilter(filter);
-	}
+//	@Override
+//	public List<TeacherResponseDTO> findTeachersByStudent(String studentName) {
+//		TeacherFilter filter = new TeacherFilter();
+//		filter.setStudentName(studentName);
+//		return findTeachersByFilter(filter);
+//	}
+//
+//	@Override
+//	public List<TeacherResponseDTO> findActiveTeachers() {
+//		TeacherFilter filter = new TeacherFilter();
+//		filter.setIsActive(true);
+//		return findTeachersByFilter(filter);
+//	}
 
 	@Override
 	public List<TeacherResponseDTO> findTeachersByPlace(String place) {

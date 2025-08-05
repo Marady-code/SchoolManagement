@@ -27,8 +27,8 @@ public interface TeacherService {
 	List<TeacherResponseDTO> findTeachersByJoiningDateRange(LocalDate dateFrom, LocalDate dateTo);
 	List<TeacherResponseDTO> findTeachersByAgeRange(Integer ageFrom, Integer ageTo);
 	List<TeacherResponseDTO> findTeachersByClass(String className);
-	List<TeacherResponseDTO> findTeachersByStudent(String studentName);
-	List<TeacherResponseDTO> findActiveTeachers();
+//	List<TeacherResponseDTO> findTeachersByStudent(String studentName);
+//	List<TeacherResponseDTO> findActiveTeachers();
 	List<TeacherResponseDTO> findTeachersByPlace(String place);
 	List<TeacherResponseDTO> findTeachersByPhoneNumber(String phoneNumber);
 }

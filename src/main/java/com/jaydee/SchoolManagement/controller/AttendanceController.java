@@ -39,11 +39,6 @@ public class AttendanceController {
         return ResponseEntity.ok(attendanceService.getAttendanceByStudentId(studentId));
     }
 
-    @GetMapping("/student/name/{name}")
-    public ResponseEntity<List<AttendanceResponseDTO>> getAttendanceByStudentName(@PathVariable String name) {
-        return ResponseEntity.ok(attendanceService.findAttendancesByStudentName(name));
-    }
-
     @GetMapping("/class/{className}")
     public ResponseEntity<List<AttendanceResponseDTO>> getAttendanceByClassName(@PathVariable String className) {
         return ResponseEntity.ok(attendanceService.getAttendanceByClassName(className));

@@ -1,6 +1,5 @@
 package com.jaydee.SchoolManagement.serviceImpl;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -107,13 +106,13 @@ public class StudentServiceImpl implements StudentService{
 		return findStudentsByFilter(filter);
 	}
 
-	@Override
-	public List<StudentResponseDTO> findStudentsByAgeRange(Integer ageFrom, Integer ageTo) {
-		StudentFilter filter = new StudentFilter();
-		filter.setAgeFrom(ageFrom);
-		filter.setAgeTo(ageTo);
-		return findStudentsByFilter(filter);
-	}
+//	@Override
+//	public List<StudentResponseDTO> findStudentsByAgeRange(Integer ageFrom, Integer ageTo) {
+//		StudentFilter filter = new StudentFilter();
+//		filter.setAgeFrom(ageFrom);
+//		filter.setAgeTo(ageTo);
+//		return findStudentsByFilter(filter);
+//	}
 
 	@Override
 	public List<StudentResponseDTO> findStudentsByClass(String className) {
@@ -122,12 +121,12 @@ public class StudentServiceImpl implements StudentService{
 		return findStudentsByFilter(filter);
 	}
 
-	@Override
-	public List<StudentResponseDTO> findStudentsByTeacher(String teacherName) {
-		StudentFilter filter = new StudentFilter();
-		filter.setTeacherId(null); // This would need to be implemented differently
-		return findStudentsByFilter(filter);
-	}
+//	@Override
+//	public List<StudentResponseDTO> findStudentsByTeacher(String teacherName) {
+//		StudentFilter filter = new StudentFilter();
+//		filter.setTeacherId(null); // This would need to be implemented differently
+//		return findStudentsByFilter(filter);
+//	}
 
 	@Override
 	public List<StudentResponseDTO> findStudentsByPhoneNumber(String phoneNumber) {
@@ -143,19 +142,19 @@ public class StudentServiceImpl implements StudentService{
 		return findStudentsByFilter(filter);
 	}
 
-	@Override
-	public List<StudentResponseDTO> findStudentsByDateOfBirthRange(LocalDate dateFrom, LocalDate dateTo) {
-		StudentFilter filter = new StudentFilter();
-		filter.setDateOfBirthFrom(dateFrom);
-		filter.setDateOfBirthTo(dateTo);
-		return findStudentsByFilter(filter);
-	}
-
-	@Override
-	public List<StudentResponseDTO> findStudentsByCreationDateRange(LocalDate dateFrom, LocalDate dateTo) {
-		StudentFilter filter = new StudentFilter();
-		filter.setCreatedFrom(dateFrom);
-		filter.setCreatedTo(dateTo);
-		return findStudentsByFilter(filter);
-	}
+//	@Override
+//	public List<StudentResponseDTO> findStudentsByDateOfBirthRange(LocalDate dateFrom, LocalDate dateTo) {
+//		StudentFilter filter = new StudentFilter();
+//		filter.setDateOfBirthFrom(dateFrom);
+//		filter.setDateOfBirthTo(dateTo);
+//		return findStudentsByFilter(filter);
+//	}
+//
+//	@Override
+//	public List<StudentResponseDTO> findStudentsByCreationDateRange(LocalDate dateFrom, LocalDate dateTo) {
+//		StudentFilter filter = new StudentFilter();
+//		filter.setCreatedFrom(dateFrom);
+//		filter.setCreatedTo(dateTo);
+//		return findStudentsByFilter(filter);
+//	}
 }

@@ -1,6 +1,5 @@
 package com.jaydee.SchoolManagement.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,12 +83,12 @@ public class StudentController {
 		return ResponseEntity.ok(studentService.findStudentsByGender(genderEnum));
 	}
 	
-	@GetMapping("/search/age-range")
-	public ResponseEntity<List<StudentResponseDTO>> findStudentsByAgeRange(
-			@RequestParam Integer ageFrom, 
-			@RequestParam Integer ageTo) {
-		return ResponseEntity.ok(studentService.findStudentsByAgeRange(ageFrom, ageTo));
-	}
+//	@GetMapping("/search/age-range")
+//	public ResponseEntity<List<StudentResponseDTO>> findStudentsByAgeRange(
+//			@RequestParam Integer ageFrom, 
+//			@RequestParam Integer ageTo) {
+//		return ResponseEntity.ok(studentService.findStudentsByAgeRange(ageFrom, ageTo));
+//	}
 	
 	@GetMapping("/search/class")
 	public ResponseEntity<List<StudentResponseDTO>> findStudentsByClass(@RequestParam String className) {
@@ -106,21 +105,21 @@ public class StudentController {
 		return ResponseEntity.ok(studentService.findStudentsByPlace(place));
 	}
 	
-	@GetMapping("/search/dob-range")
-	public ResponseEntity<List<StudentResponseDTO>> findStudentsByDateOfBirthRange(
-			@RequestParam String dateFrom, 
-			@RequestParam String dateTo) {
-		LocalDate from = LocalDate.parse(dateFrom);
-		LocalDate to = LocalDate.parse(dateTo);
-		return ResponseEntity.ok(studentService.findStudentsByDateOfBirthRange(from, to));
-	}
-	
-	@GetMapping("/search/created-range")
-	public ResponseEntity<List<StudentResponseDTO>> findStudentsByCreationDateRange(
-			@RequestParam String dateFrom, 
-			@RequestParam String dateTo) {
-		LocalDate from = LocalDate.parse(dateFrom);
-		LocalDate to = LocalDate.parse(dateTo);
-		return ResponseEntity.ok(studentService.findStudentsByCreationDateRange(from, to));
-	}
+//	@GetMapping("/search/dob-range")
+//	public ResponseEntity<List<StudentResponseDTO>> findStudentsByDateOfBirthRange(
+//			@RequestParam String dateFrom, 
+//			@RequestParam String dateTo) {
+//		LocalDate from = LocalDate.parse(dateFrom);
+//		LocalDate to = LocalDate.parse(dateTo);
+//		return ResponseEntity.ok(studentService.findStudentsByDateOfBirthRange(from, to));
+//	}
+//	
+//	@GetMapping("/search/created-range")
+//	public ResponseEntity<List<StudentResponseDTO>> findStudentsByCreationDateRange(
+//			@RequestParam String dateFrom, 
+//			@RequestParam String dateTo) {
+//		LocalDate from = LocalDate.parse(dateFrom);
+//		LocalDate to = LocalDate.parse(dateTo);
+//		return ResponseEntity.ok(studentService.findStudentsByCreationDateRange(from, to));
+//	}
 }

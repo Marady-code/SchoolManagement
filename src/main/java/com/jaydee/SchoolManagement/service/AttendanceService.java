@@ -13,7 +13,6 @@ public interface AttendanceService {
     List<AttendanceResponseDTO> getAttendanceByStudentId(Long studentId);
     List<AttendanceResponseDTO> getAttendanceByClassName(String className);
     List<AttendanceResponseDTO> getAttendanceByClassNameAndDate(String className, LocalDate date);
-//    List<AttendanceResponseDTO> findAll(Specification<Attendance> spec);
     AttendanceResponseDTO updateAttendance(Long id, AttendanceRequestDTO requestDTO);
     void deleteAttendance(Long id);
     List<AttendanceResponseDTO> getAttendanceByStudentFullName(String fullName);

@@ -1,6 +1,5 @@
 package com.jaydee.SchoolManagement.service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import com.jaydee.SchoolManagement.dto.StudentRequestDTO;
@@ -21,11 +20,11 @@ public interface StudentService {
 	List<StudentResponseDTO> findStudentsByName(String name);
 	List<StudentResponseDTO> findStudentsByFullName(String fullName);
 	List<StudentResponseDTO> findStudentsByGender(GenderEnum gender);
-	List<StudentResponseDTO> findStudentsByAgeRange(Integer ageFrom, Integer ageTo);
+//	List<StudentResponseDTO> findStudentsByAgeRange(Integer ageFrom, Integer ageTo);
 	List<StudentResponseDTO> findStudentsByClass(String className);
-	List<StudentResponseDTO> findStudentsByTeacher(String teacherName);
+//	List<StudentResponseDTO> findStudentsByTeacher(String teacherName);
 	List<StudentResponseDTO> findStudentsByPhoneNumber(String phoneNumber);
 	List<StudentResponseDTO> findStudentsByPlace(String place);
-	List<StudentResponseDTO> findStudentsByDateOfBirthRange(LocalDate dateFrom, LocalDate dateTo);
-	List<StudentResponseDTO> findStudentsByCreationDateRange(LocalDate dateFrom, LocalDate dateTo);
+//	List<StudentResponseDTO> findStudentsByDateOfBirthRange(LocalDate dateFrom, LocalDate dateTo);
+//	List<StudentResponseDTO> findStudentsByCreationDateRange(LocalDate dateFrom, LocalDate dateTo);
 }
