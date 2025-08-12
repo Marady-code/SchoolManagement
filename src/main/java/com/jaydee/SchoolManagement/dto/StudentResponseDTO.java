@@ -24,4 +24,6 @@ public class StudentResponseDTO {
 	private String phone_number;
 	
 	private String emergencyPhone;
+	
+	private String parentName;
 }

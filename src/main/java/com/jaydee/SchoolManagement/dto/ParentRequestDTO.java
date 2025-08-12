@@ -7,7 +7,7 @@ import com.jaydee.SchoolManagement.entity.GenderEnum;
 import lombok.Data;
 
 @Data
-public class StudentRequestDTO {
+public class ParentRequestDTO {
 	
 	private String firstName;
 	
@@ -15,15 +15,13 @@ public class StudentRequestDTO {
 	
 	private GenderEnum gender;
 	
-	private String phone_number;
+	private String phoneNumber;
 	
-	private LocalDate date_of_birth;
+	private String email;
 	
-	private String place_of_birth;
+	private String address;
 	
-	private String current_place;
+	private String occupation;
 	
-	private String emergencyPhone;
-	
-	private Long parentId;
-}
+	private LocalDate dateOfBirth;
+} 

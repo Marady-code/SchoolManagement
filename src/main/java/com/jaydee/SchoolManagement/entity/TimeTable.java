@@ -31,6 +31,9 @@ public class TimeTable {
 	private Teacher teacher;
 	
 	@ManyToOne
+	private Subject subject;
+	
+	@ManyToOne
 	private ClassEntity classEntity;
 	
 }

@@ -20,4 +20,6 @@ public class TimeTableFilter {
     private Boolean isActive; // For active schedules (current time within schedule)
     private Boolean isOverlapping; // For overlapping schedules
     private String timeRange; // For time range search (e.g., "morning", "afternoon", "evening")
+    private Long subjectId; // For schedules of specific subject
+    private String subjectName; // For schedules of subjects with specific name
 } 

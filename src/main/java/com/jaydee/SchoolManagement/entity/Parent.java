@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -13,7 +11,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
@@ -22,13 +19,13 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "teachers")
-public class Teacher {
-
+@Table(name = "parents")
+public class Parent {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "teacher_id")
-	private Long teacherId;
+	@Column(name = "parent_id")
+	private Long parentId;
 	
 	private String firstName;
 	
@@ -39,30 +36,18 @@ public class Teacher {
 	
 	@NotBlank
 	@Size(min = 9, max = 10)
-	private String phone_number;
+	private String phoneNumber;
 	
-	private LocalDate date_of_birth;
+	private String email;
 	
-	private String place_of_birth;
+	private String address;
 	
-	private String current_place;
+	private String occupation;
 	
-	private String qualification;
+	private LocalDate dateOfBirth;
 	
-	private LocalDate joining_date;
-	
-	private long salary;
-	
-	@OneToMany(mappedBy = "teacher")
-	@JsonIgnore
-	private List<ClassEntity> classes;
-	
-	@OneToMany(mappedBy = "recordBy")
-	private List<Attendance> recordedAttendances;
-	
-	@ManyToMany
-	private List<Subject> subjects;
+	@OneToMany(mappedBy = "parent")
+	private List<Student> children;
 	
 	private LocalDateTime createAt = LocalDateTime.now();
-	
-}
+} 

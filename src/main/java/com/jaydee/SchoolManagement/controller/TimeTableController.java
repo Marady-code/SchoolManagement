@@ -88,6 +88,16 @@ public class TimeTableController {
         return ResponseEntity.ok(timeTableService.findSchedulesByClassId(classId));
     }
 
+    @GetMapping("/search/subject")
+    public ResponseEntity<List<TimeTable>> findSchedulesBySubject(@RequestParam String subjectName) {
+        return ResponseEntity.ok(timeTableService.findSchedulesBySubject(subjectName));
+    }
+
+    @GetMapping("/search/subject/{subjectId}")
+    public ResponseEntity<List<TimeTable>> findSchedulesBySubjectId(@PathVariable Long subjectId) {
+        return ResponseEntity.ok(timeTableService.findSchedulesBySubjectId(subjectId));
+    }
+
     @GetMapping("/search/time-range")
     public ResponseEntity<List<TimeTable>> findSchedulesByTimeRange(
             @RequestParam String startTime, 

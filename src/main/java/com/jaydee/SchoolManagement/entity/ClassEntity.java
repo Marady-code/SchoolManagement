@@ -55,5 +55,16 @@ public class ClassEntity {
 	@OneToMany(mappedBy = "classEntity")
 	private List<Attendance> attendances;
 	
+	@ManyToMany
+	@JoinTable(
+		name = "class_subjects",
+		joinColumns = @JoinColumn(name = "class_id"),
+		inverseJoinColumns = @JoinColumn(name = "subject_id")
+	)
+	private List<Subject> subjects;
+	
+	@OneToMany(mappedBy = "classEntity")
+	private List<Exam> exams;
+	
 	private LocalDateTime createAt = LocalDateTime.now();
 }

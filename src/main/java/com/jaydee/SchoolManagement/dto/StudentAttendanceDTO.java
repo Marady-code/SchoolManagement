@@ -5,11 +5,9 @@ import com.jaydee.SchoolManagement.entity.AttendanceStatus;
 import lombok.Data;
 
 @Data
-public class AttendanceRequestDTO {
+public class StudentAttendanceDTO {
 	
-	private Long studentId;	
-	private Long classId;
-	//private LocalDate date;
+	private Long studentId;
 	private AttendanceStatus status;
 	private String remark;
 }

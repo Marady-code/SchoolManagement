@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 import com.jaydee.SchoolManagement.dto.StudentRequestDTO;
 import com.jaydee.SchoolManagement.dto.StudentResponseDTO;
 import com.jaydee.SchoolManagement.entity.GenderEnum;
+import com.jaydee.SchoolManagement.entity.Parent;
 import com.jaydee.SchoolManagement.entity.Student;
 import com.jaydee.SchoolManagement.exception.ResourceNotFound;
 import com.jaydee.SchoolManagement.mapper.StudentMapper;
+import com.jaydee.SchoolManagement.repository.ParentRepository;
 import com.jaydee.SchoolManagement.repository.StudentRepository;
 import com.jaydee.SchoolManagement.service.StudentService;
 import com.jaydee.SchoolManagement.specification.StudentFilter;
@@ -26,10 +28,19 @@ public class StudentServiceImpl implements StudentService{
 	@Autowired
 	private final StudentRepository studentRepository;
 	private final StudentMapper studentMapper;
+	private final ParentRepository parentRepository;
 
 	@Override
 	public StudentResponseDTO create(StudentRequestDTO dto) {
 		Student student = studentMapper.toEntity(dto);
+		
+		// Set parent if parentId is provided
+		if (dto.getParentId() != null) {
+			Parent parent = parentRepository.findById(dto.getParentId())
+					.orElseThrow(() -> new ResourceNotFound("Parent not found"));
+			student.setParent(parent);
+		}
+		
 		Student saved = studentRepository.save(student);
 		return studentMapper.toResponseDTO(saved);
 	}
@@ -61,6 +72,13 @@ public class StudentServiceImpl implements StudentService{
 				existing.setPlace_of_birth(dto.getPlace_of_birth());
 				existing.setCurrent_place(dto.getCurrent_place());
 				existing.setEmergencyPhone(dto.getEmergencyPhone());
+				
+				// Update parent if parentId is provided
+				if (dto.getParentId() != null) {
+					Parent parent = parentRepository.findById(dto.getParentId())
+							.orElseThrow(() -> new ResourceNotFound("Parent not found"));
+					existing.setParent(parent);
+				}
 				
 		Student updated = studentRepository.save(existing);
 		return studentMapper.toResponseDTO(updated);

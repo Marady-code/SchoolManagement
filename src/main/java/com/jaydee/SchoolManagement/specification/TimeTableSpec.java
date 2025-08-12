@@ -75,6 +75,17 @@ public class TimeTableSpec implements Specification<TimeTable> {
                 "%" + timeTableFilter.getClassName().toLowerCase() + "%"));
         }
         
+        // Subject ID filter
+        if (timeTableFilter.getSubjectId() != null) {
+            predicates.add(cb.equal(timeTable.get("subject").get("subjectId"), timeTableFilter.getSubjectId()));
+        }
+        
+        // Subject name filter (case-insensitive)
+        if (timeTableFilter.getSubjectName() != null && !timeTableFilter.getSubjectName().trim().isEmpty()) {
+            predicates.add(cb.like(cb.lower(timeTable.get("subject").get("subjectName")), 
+                "%" + timeTableFilter.getSubjectName().toLowerCase() + "%"));
+        }
+        
         // Time slot filter (schedules at specific time)
         if (timeTableFilter.getTimeSlot() != null) {
             LocalTime timeSlot = timeTableFilter.getTimeSlot();

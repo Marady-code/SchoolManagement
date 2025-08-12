@@ -45,9 +45,11 @@ public class AttendanceServiceImpl implements AttendanceService {
     	
     	Teacher teacher = classEntity.getTeacher();
     	
+    	LocalDate today = LocalDate.now();
+    	
     	// Prevent duplicate attendance
         boolean exists = attendanceRepository.existsByStudentStudentIdAndClassEntityClassIdAndDate(
-            requestDTO.getStudentId(), requestDTO.getClassId(), requestDTO.getDate()
+            requestDTO.getStudentId(), requestDTO.getClassId()
         );
         if (exists) {
             throw new IllegalArgumentException("Attendance already marked for this student, class, and date.");
@@ -56,6 +58,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     	Attendance attendance = attendanceMapper.toEntity(requestDTO);
     	attendance.setStudent(student);
     	attendance.setClassEntity(classEntity);
+    	attendance.setDate(today);
     	attendance.setRecordBy(teacher);
     	
     	Attendance saved = attendanceRepository.save(attendance);
@@ -70,7 +73,7 @@ public class AttendanceServiceImpl implements AttendanceService {
                 .orElseThrow(() -> new ResourceNotFound("Student not found")));
         attendance.setClassEntity(classRepository.findById(requestDTO.getClassId())
                 .orElseThrow(() -> new ResourceNotFound("Class not found")));
-        attendance.setDate(requestDTO.getDate());
+        //attendance.setDate(requestDTO.getDate());
         attendance.setStatus(requestDTO.getStatus());
         attendance.setRemark(requestDTO.getRemark());
         // For recordBy, you may want to get the teacher from context or request

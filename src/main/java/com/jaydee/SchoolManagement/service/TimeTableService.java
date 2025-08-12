@@ -23,6 +23,8 @@ public interface TimeTableService {
     List<TimeTable> findSchedulesByTeacherId(Long teacherId);
     List<TimeTable> findSchedulesByClass(String className);
     List<TimeTable> findSchedulesByClassId(Long classId);
+    List<TimeTable> findSchedulesBySubject(String subjectName);
+    List<TimeTable> findSchedulesBySubjectId(Long subjectId);
     List<TimeTable> findSchedulesByTimeRange(LocalTime startTime, LocalTime endTime);
     List<TimeTable> findSchedulesByTimeSlot(LocalTime timeSlot);
     List<TimeTable> findActiveSchedules();

@@ -102,6 +102,20 @@ public class TimeTableServiceImpl implements TimeTableService {
     }
 
     @Override
+    public List<TimeTable> findSchedulesBySubject(String subjectName) {
+        TimeTableFilter filter = new TimeTableFilter();
+        filter.setSubjectName(subjectName);
+        return findSchedulesByFilter(filter);
+    }
+
+    @Override
+    public List<TimeTable> findSchedulesBySubjectId(Long subjectId) {
+        TimeTableFilter filter = new TimeTableFilter();
+        filter.setSubjectId(subjectId);
+        return findSchedulesByFilter(filter);
+    }
+
+    @Override
     public List<TimeTable> findSchedulesByTimeRange(LocalTime startTime, LocalTime endTime) {
         TimeTableFilter filter = new TimeTableFilter();
         filter.setStartTimeFrom(startTime);

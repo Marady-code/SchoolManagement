@@ -14,8 +14,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
@@ -35,6 +38,8 @@ public class Student {
 	@Enumerated(EnumType.STRING)
 	private GenderEnum gender;
 	
+	@NotBlank
+	@Size(min = 9, max = 10)
 	private String phone_number;
 	
 	private LocalDate date_of_birth;
@@ -45,15 +50,17 @@ public class Student {
 	
 	private String emergencyPhone;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "class_id")
-//	private ClassEntity classEntity;
-	
 	@ManyToMany(mappedBy = "students")
 	private Set<ClassEntity> classes = new HashSet<>();
 	
 	@OneToMany(mappedBy = "student")
 	private List<Attendance> studentAttendance;
+	
+	@ManyToOne
+	private Parent parent;
+	
+	@OneToMany(mappedBy = "student")
+	private List<ExamResult> examResults;
 	
 	private LocalDateTime createAt = LocalDateTime.now();
 }

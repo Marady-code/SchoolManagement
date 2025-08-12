@@ -15,6 +15,7 @@ public interface StudentMapper {
     Student toEntity(StudentRequestDTO dto);
 
     @Mapping(target = "fullName", expression = "java(entity.getLastName() + \" \" + entity.getFirstName())")
+    @Mapping(target = "parentName", expression = "java(entity.getParent() != null ? entity.getParent().getLastName() + \" \" + entity.getParent().getFirstName() : null)")
     StudentResponseDTO toResponseDTO(Student entity);
 
     List<StudentResponseDTO> toDtoList(List<Student> students);

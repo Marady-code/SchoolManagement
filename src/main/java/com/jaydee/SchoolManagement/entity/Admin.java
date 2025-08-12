@@ -1,10 +1,6 @@
 package com.jaydee.SchoolManagement.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,8 +9,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -22,13 +16,13 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "teachers")
-public class Teacher {
-
+@Table(name = "admins")
+public class Admin {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "teacher_id")
-	private Long teacherId;
+	@Column(name = "admin_id")
+	private Long adminId;
 	
 	private String firstName;
 	
@@ -37,32 +31,22 @@ public class Teacher {
 	@Enumerated(EnumType.STRING)
 	private GenderEnum gender;
 	
+	@Column(unique = true, nullable = false)
+	private String email;
+	
 	@NotBlank
 	@Size(min = 9, max = 10)
-	private String phone_number;
+	private String phoneNumber;
 	
-	private LocalDate date_of_birth;
+	private String address;
 	
-	private String place_of_birth;
+	private String username;
 	
-	private String current_place;
+	private String password;
 	
-	private String qualification;
+	private String role; // SUPER_ADMIN, ADMIN, etc.
 	
-	private LocalDate joining_date;
-	
-	private long salary;
-	
-	@OneToMany(mappedBy = "teacher")
-	@JsonIgnore
-	private List<ClassEntity> classes;
-	
-	@OneToMany(mappedBy = "recordBy")
-	private List<Attendance> recordedAttendances;
-	
-	@ManyToMany
-	private List<Subject> subjects;
+	private Boolean isActive = true;
 	
 	private LocalDateTime createAt = LocalDateTime.now();
-	
-}
+} 
