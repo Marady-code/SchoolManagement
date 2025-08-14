@@ -9,7 +9,8 @@ public class AttendanceRequestDTO {
 	
 	private Long studentId;	
 	private Long classId;
-	//private LocalDate date;
-	private AttendanceStatus status;
+	private Long teacherId;
+	private AttendanceStatus status = AttendanceStatus.PRESENT;
 	private String remark;
+
 }

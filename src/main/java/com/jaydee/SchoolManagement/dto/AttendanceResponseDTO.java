@@ -9,10 +9,14 @@ import lombok.Data;
 @Data
 public class AttendanceResponseDTO {
 	
-	private String studentName;	
-	private String className;
-	private String teacherName;
-	private LocalDate date;
-	private AttendanceStatus status;
-	private String remark;
+    private Long attendanceId;
+    private LocalDate date;
+    private AttendanceStatus status;
+    private String remark;
+    private Long studentId;
+    private String studentName;
+    private Long classId;
+    private String className;
+    private Long teacherId;
+    private String teacherName;
 }

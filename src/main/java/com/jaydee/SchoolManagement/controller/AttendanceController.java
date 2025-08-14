@@ -3,7 +3,6 @@ package com.jaydee.SchoolManagement.controller;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jaydee.SchoolManagement.dto.AttendanceRequestDTO;
 import com.jaydee.SchoolManagement.dto.AttendanceResponseDTO;
+import com.jaydee.SchoolManagement.dto.BulkAttendanceSubmitRequest;
+import com.jaydee.SchoolManagement.entity.AttendanceStatus;
 import com.jaydee.SchoolManagement.service.AttendanceService;
 import com.jaydee.SchoolManagement.specification.AttendanceFilter;
 
@@ -28,10 +29,53 @@ import lombok.RequiredArgsConstructor;
 public class AttendanceController {
 	
     private final AttendanceService attendanceService;
+    
+    @PostMapping("/bulk-submit")
+    public ResponseEntity<List<AttendanceResponseDTO>> submitBulkAttendance(
+            @RequestBody BulkAttendanceSubmitRequest request,
+            @RequestParam Long teacherId) {
+        return ResponseEntity.ok(attendanceService.submitBulkAttendance(request, teacherId));
+    }
 
-    @PostMapping
-    public ResponseEntity<?> markAttendance(@RequestBody AttendanceRequestDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(attendanceService.markAttendance(dto));
+    @PutMapping("/{attendanceId}")
+    public ResponseEntity<AttendanceResponseDTO> updateAttendance(
+            @PathVariable Long attendanceId,
+            @RequestParam AttendanceStatus status,
+            @RequestParam(required = false) String remarks,
+            @RequestParam Long teacherId) {
+        return ResponseEntity.ok(attendanceService.updateStatus(attendanceId, status, remarks, teacherId));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<AttendanceResponseDTO>> searchAttendances(
+            @RequestParam(required = false) String studentName,
+            @RequestParam(required = false) String className,
+            @RequestParam(required = false) LocalDate fromDate,
+            @RequestParam(required = false) LocalDate toDate,
+            @RequestParam(required = false) AttendanceStatus status) {
+        
+        AttendanceFilter filter = new AttendanceFilter();
+        filter.setStudentName(studentName);
+        filter.setClassName(className);
+        filter.setDateFrom(fromDate);
+        filter.setDateTo(toDate);
+        filter.setStatus(status);
+        
+        return ResponseEntity.ok(attendanceService.findAttendancesByFilter(filter));
+    }
+
+    @GetMapping("/class/{classId}/today")
+    public ResponseEntity<List<AttendanceResponseDTO>> getTodayAttendance(
+            @PathVariable Long classId) {
+        return ResponseEntity.ok(attendanceService.getTodayAttendanceForClass(classId, LocalDate.now()));
+    }
+
+    @GetMapping("/class/{classId}/date/{date}")
+    public ResponseEntity<List<AttendanceResponseDTO>> getExistingAttendanceByClassAndDate(
+            @PathVariable Long classId, 
+            @PathVariable String date) {
+        LocalDate localDate = LocalDate.parse(date);
+        return ResponseEntity.ok(attendanceService.getExistingAttendanceByClassAndDate(classId, localDate));
     }
 
     @GetMapping("/student/{studentId}")

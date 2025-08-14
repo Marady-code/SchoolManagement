@@ -10,4 +10,5 @@ public class SchoolManagementApplication {
 		SpringApplication.run(SchoolManagementApplication.class, args);
 	}
 
+	//http://localhost:8080/api/swagger-ui.html
 }
