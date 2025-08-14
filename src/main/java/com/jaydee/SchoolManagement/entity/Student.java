@@ -2,9 +2,9 @@ package com.jaydee.SchoolManagement.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,19 +13,20 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "teachers")
-public class Teacher {
-
+@Table(name = "students")
+public class Student {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "teacher_id")
-	private Long teacherId;
+	@Column(name = "student_id")
+	private Long studentId;
 	
 	private String firstName;
 	
@@ -42,19 +43,17 @@ public class Teacher {
 	
 	private String current_place;
 	
-	private String qualification;
+	private String emergencyPhone;
 	
-	private LocalDate joining_date;
+//	@ManyToOne
+//	@JoinColumn(name = "class_id")
+//	private ClassEntity classEntity;
 	
-	private long salary;
+	@ManyToMany(mappedBy = "students")
+	private Set<ClassEntity> classes = new HashSet<>();
 	
-	@OneToMany(mappedBy = "teacher")
-	@JsonIgnore
-	private List<ClassEntity> classes;
-	
-	@OneToMany(mappedBy = "recordBy")
-	private List<Attendance> recordedAttendances;
+	@OneToMany(mappedBy = "student")
+	private List<Attendance> studentAttendance;
 	
 	private LocalDateTime createAt = LocalDateTime.now();
-	
 }

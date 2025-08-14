@@ -9,11 +9,31 @@ spring:
     username: Jaydee
     password: 150304
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
-      ddl-auto: update  # or create, create-drop, validate, none
+      ddl-auto: update  # Options: update, create, create-drop, validate, none
     show-sql: true
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operations-sorter: method
+    tags-sorter: alpha
+    disable-swagger-default-url: true
+    display-request-duration: true
+    tryItOutEnabled: true
+    filter: true
+
+    #http://localhost:8080/api/swagger-ui.html
+
+  api-docs:
+    path: /api-docs
+
+  packages-to-scan: com.jaydee.SchoolManagement.controller
+  paths-to-match: /**
