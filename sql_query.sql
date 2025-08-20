@@ -9,3 +9,9 @@ select * from classes
 select * from class_students
 
 select * from attendances
+
+select * from subjects
+
+select * from class_subject
+
+
