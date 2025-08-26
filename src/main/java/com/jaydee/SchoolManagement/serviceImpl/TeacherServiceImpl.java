@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jaydee.SchoolManagement.dto.TeacherRequestDTO;
@@ -17,6 +19,7 @@ import com.jaydee.SchoolManagement.repository.TeacherRepository;
 import com.jaydee.SchoolManagement.service.TeacherService;
 import com.jaydee.SchoolManagement.specification.TeacherFilter;
 import com.jaydee.SchoolManagement.specification.TeacherSpec;
+import com.jaydee.SchoolManagement.util.PageResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -42,12 +45,19 @@ public class TeacherServiceImpl implements TeacherService{
 		return teacherMapper.toResponseDTO(teacher);		
 	}
 
+//	@Override
+//	public List<TeacherResponseDTO> getAll() {
+//		return teacherRepository.findAll()
+//				.stream()
+//				.map(teacherMapper::toResponseDTO)
+//				.collect(Collectors.toList());
+//	}
+	
 	@Override
-	public List<TeacherResponseDTO> getAll() {
-		return teacherRepository.findAll()
-				.stream()
-				.map(teacherMapper::toResponseDTO)
-				.collect(Collectors.toList());
+	public PageResponse<TeacherResponseDTO> getAllTeachers(Pageable pageable) {
+		Page<Teacher> page = teacherRepository.findAll(pageable);
+		Page<TeacherResponseDTO> response = page.map(teacherMapper::toResponseDTO);
+		return PageResponse.of(response);
 	}
 
 	@Override
@@ -181,4 +191,7 @@ public class TeacherServiceImpl implements TeacherService{
 		filter.setPhoneNumber(phoneNumber);
 		return findTeachersByFilter(filter);
 	}
+
+
+
 }
