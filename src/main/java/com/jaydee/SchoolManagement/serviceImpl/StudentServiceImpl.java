@@ -1,9 +1,10 @@
 package com.jaydee.SchoolManagement.serviceImpl;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.jaydee.SchoolManagement.dto.StudentRequestDTO;
@@ -16,6 +17,7 @@ import com.jaydee.SchoolManagement.repository.StudentRepository;
 import com.jaydee.SchoolManagement.service.StudentService;
 import com.jaydee.SchoolManagement.specification.StudentFilter;
 import com.jaydee.SchoolManagement.specification.StudentSpec;
+import com.jaydee.SchoolManagement.util.PageResponse;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,10 +25,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService{
 	
-	@Autowired
 	private final StudentRepository studentRepository;
 	private final StudentMapper studentMapper;
-
+	
 	@Override
 	public StudentResponseDTO create(StudentRequestDTO dto) {
 		Student student = studentMapper.toEntity(dto);
@@ -41,13 +42,22 @@ public class StudentServiceImpl implements StudentService{
 		return studentMapper.toResponseDTO(student);
 	}
 
+//	@Override
+//	public List<StudentResponseDTO> getAll() {
+//		return studentRepository.findAll()
+//				.stream()
+//				.map(studentMapper::toResponseDTO)
+//				.collect(Collectors.toList());
+//	}
+	
 	@Override
-	public List<StudentResponseDTO> getAll() {
-		return studentRepository.findAll()
-				.stream()
-				.map(studentMapper::toResponseDTO)
-				.collect(Collectors.toList());
+	public PageResponse<StudentResponseDTO> getAllStudents(Pageable pageable) {
+		Page<Student> page = studentRepository.findAll(pageable);
+		Page<StudentResponseDTO> response = page.map(studentMapper::toResponseDTO);
+		return PageResponse.of(response);
 	}
+
+
 
 	@Override
 	public StudentResponseDTO updateStudent(Long studentId, StudentRequestDTO dto) {
@@ -141,6 +151,7 @@ public class StudentServiceImpl implements StudentService{
 		filter.setCurrentPlace(place);
 		return findStudentsByFilter(filter);
 	}
+
 
 //	@Override
 //	public List<StudentResponseDTO> findStudentsByDateOfBirthRange(LocalDate dateFrom, LocalDate dateTo) {

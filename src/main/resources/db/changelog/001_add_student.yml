@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001_add_student
+      author: Marady
+      changes:
+        - loadData:
+            tableName: students
+            file: db/data/001_insert_student.csv
+            separator: ","
+            relativeToChangelogFile: true
+            columns:
+ #             - column:
+#                  name: student_id
+ #                 type: NUMERIC
+              - column:
+                  name: first_name
+                  type: VARCHAR(255)
+              - column:
+                  name: last_name
+                  type: VARCHAR(255)
+              - column:
+                  name: gender
+                  type: STRING 
+              - column:
+                  name: phone_number
+                  type: STRING
+              - column:
+                  name: date_of_birth
+                  type: DATE
+              - column:
+                  name: place_of_birth
+                  type: STRING
+              - column:
+                  name: current_place
+                  type: STRING
+              - column:
+                  name: emergency_phone
+                  type: STRING				  
+				  
+				  
+				  
+				  
+				  
+				  

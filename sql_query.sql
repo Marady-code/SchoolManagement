@@ -14,4 +14,8 @@ select * from subjects
 
 select * from class_subject
 
+select * from teachers_subjects
+
+ALter table students drop column parent_parent_id
+
 
