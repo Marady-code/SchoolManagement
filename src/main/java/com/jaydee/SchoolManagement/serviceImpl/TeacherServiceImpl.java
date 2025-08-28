@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class TeacherServiceImpl implements TeacherService{
+public class TeacherServiceImpl implements TeacherService {
 
 	@Autowired
 	private final TeacherRepository teacherRepository;
@@ -41,8 +41,9 @@ public class TeacherServiceImpl implements TeacherService{
 
 	@Override
 	public TeacherResponseDTO getById(Long teacherId) {
-		Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new ResourceNotFound("Teacher", teacherId));
-		return teacherMapper.toResponseDTO(teacher);		
+		Teacher teacher = teacherRepository.findById(teacherId)
+				.orElseThrow(() -> new ResourceNotFound("Teacher", teacherId));
+		return teacherMapper.toResponseDTO(teacher);
 	}
 
 //	@Override
@@ -52,7 +53,7 @@ public class TeacherServiceImpl implements TeacherService{
 //				.map(teacherMapper::toResponseDTO)
 //				.collect(Collectors.toList());
 //	}
-	
+
 	@Override
 	public PageResponse<TeacherResponseDTO> getAllTeachers(Pageable pageable) {
 		Page<Teacher> page = teacherRepository.findAll(pageable);
@@ -64,17 +65,17 @@ public class TeacherServiceImpl implements TeacherService{
 	public TeacherResponseDTO updateTeacher(Long teachId, TeacherRequestDTO dto) {
 		Teacher existing = teacherRepository.findById(teachId)
 				.orElseThrow(() -> new ResourceNotFound("Teacher", teachId));
-				existing.setFirstName(dto.getFirstName());
-				existing.setLastName(dto.getLastName());
-				existing.setGender(dto.getGender());
-				existing.setPhone_number(dto.getPhone_number());
-				existing.setDate_of_birth(dto.getDate_of_birth());
-				existing.setPlace_of_birth(dto.getPlace_of_birth());
-				existing.setCurrent_place(dto.getCurrent_place());
-				existing.setQualification(dto.getQualification());
-				existing.setJoining_date(dto.getJoining_date());
-				existing.setSalary(dto.getSalary());
-		
+		existing.setFirstName(dto.getFirstName());
+		existing.setLastName(dto.getLastName());
+		existing.setGender(dto.getGender());
+		existing.setPhone_number(dto.getPhone_number());
+		existing.setDate_of_birth(dto.getDate_of_birth());
+		existing.setPlace_of_birth(dto.getPlace_of_birth());
+		existing.setCurrent_place(dto.getCurrent_place());
+		existing.setQualification(dto.getQualification());
+		existing.setJoining_date(dto.getJoining_date());
+		existing.setSalary(dto.getSalary());
+
 		Teacher updated = teacherRepository.save(existing);
 		return teacherMapper.toResponseDTO(updated);
 	}
@@ -84,17 +85,14 @@ public class TeacherServiceImpl implements TeacherService{
 		Teacher teacher = teacherRepository.findById(teacherId)
 				.orElseThrow(() -> new ResourceNotFound("Teacher", teacherId));
 		teacherRepository.delete(teacher);
-		
+
 	}
-	
+
 	// New JPA Specification methods
 	@Override
 	public List<TeacherResponseDTO> findTeachersByFilter(TeacherFilter filter) {
 		TeacherSpec spec = new TeacherSpec(filter);
-		return teacherRepository.findAll(spec)
-				.stream()
-				.map(teacherMapper::toResponseDTO)
-				.collect(Collectors.toList());
+		return teacherRepository.findAll(spec).stream().map(teacherMapper::toResponseDTO).collect(Collectors.toList());
 	}
 
 	@Override
@@ -191,7 +189,5 @@ public class TeacherServiceImpl implements TeacherService{
 		filter.setPhoneNumber(phoneNumber);
 		return findTeachersByFilter(filter);
 	}
-
-
 
 }

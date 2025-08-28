@@ -16,10 +16,7 @@ public interface StudentService {
 
 	StudentResponseDTO getById(Long studentId);
 
-	// List<StudentResponseDTO> getAll(Pageable pageable);
 	StudentResponseDTO updateStudent(Long studentId, StudentRequestDTO dto);
-
-	void deleteStudent(Long studentId);
 
 	PageResponse<StudentResponseDTO> getAllStudents(Pageable pageable);
 
@@ -42,4 +39,25 @@ public interface StudentService {
 //	List<StudentResponseDTO> findStudentsByAgeRange(Integer ageFrom, Integer ageTo);
 //	List<StudentResponseDTO> findStudentsByDateOfBirthRange(LocalDate dateFrom, LocalDate dateTo);
 //	List<StudentResponseDTO> findStudentsByCreationDateRange(LocalDate dateFrom, LocalDate dateTo);
+
+	void deleteStudent(Long studentId);
+//	
+//	/**
+//	 * Soft deletes a student by marking it as deleted without removing from database
+//	 * @param studentId ID of the student to soft delete
+//	 */
+//	void softDeleteStudent(Long studentId);
+//	
+//	/**
+//	 * Restores a previously soft-deleted student
+//	 * @param studentId ID of the student to restore
+//	 * @return The restored student data
+//	 */
+//	StudentResponseDTO restoreStudent(Long studentId);
+//	
+//	/**
+//	 * Retrieves all soft-deleted students
+//	 * @return List of soft-deleted students
+//	 */
+//	List<StudentResponseDTO> getAllDeletedStudents();
 }

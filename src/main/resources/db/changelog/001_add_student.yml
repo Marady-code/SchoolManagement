@@ -5,13 +5,10 @@ databaseChangeLog:
       changes:
         - loadData:
             tableName: students
-            file: db/data/001_insert_student.csv
+            file: ../data/001_insert_student.csv
             separator: ","
             relativeToChangelogFile: true
             columns:
- #             - column:
-#                  name: student_id
- #                 type: NUMERIC
               - column:
                   name: first_name
                   type: VARCHAR(255)
@@ -20,7 +17,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
               - column:
                   name: gender
-                  type: STRING 
+                  type: STRING
               - column:
                   name: phone_number
                   type: STRING
@@ -35,10 +32,4 @@ databaseChangeLog:
                   type: STRING
               - column:
                   name: emergency_phone
-                  type: STRING				  
-				  
-				  
-				  
-				  
-				  
-				  
+                  type: STRING

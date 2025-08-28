@@ -2,6 +2,8 @@ package com.jaydee.SchoolManagement.util;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -27,7 +29,7 @@ public class PageResponse<T> {
 		this.last = last;
 	}
 	
-	public static <T> PageResponse<T> of(org.springframework.data.domain.Page<T> page){
+	public static <T> PageResponse<T> of(Page<T> page){
 		return new PageResponse<>(
 				page.getContent(),
 				page.getNumber(),

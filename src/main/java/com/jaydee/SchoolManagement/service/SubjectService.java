@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.jaydee.SchoolManagement.dto.SubjectRequestDTO;
 import com.jaydee.SchoolManagement.dto.SubjectResponseDTO;
+import com.jaydee.SchoolManagement.specification.SubjectFilter;
 
 public interface SubjectService {
 
@@ -17,5 +18,9 @@ public interface SubjectService {
 	
 	List<SubjectResponseDTO> getAllSubjects();
 	
+	List<SubjectResponseDTO> findSubjectsByFilter(SubjectFilter filter);
 	
+	List<SubjectResponseDTO> findBySubjectName(String subjectName);
+	
+	List<SubjectResponseDTO> findBySubjectCode(String code);
 }

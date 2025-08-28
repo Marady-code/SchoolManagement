@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-add-soft-delete-columns
+      author: copilot
+      changes:
+        # First add columns as nullable
+        - addColumn:
+            tableName: students
+            columns:
+              - column:
+                  name: create_at
+                  type: timestamp
+              - column:
+                  name: is_deleted
+                  type: boolean
+
+        # Update existing records with default values
+        - sql:
+            sql: >
+              UPDATE students SET create_at = CURRENT_TIMESTAMP WHERE create_at IS NULL;
+              UPDATE students SET is_deleted = false WHERE is_deleted IS NULL;
+
+        # Now make the columns not null
+        - addNotNullConstraint:
+            tableName: students
+            columnName: create_at
+            columnDataType: timestamp
+        - addNotNullConstraint:
+            tableName: students
+            columnName: is_deleted
+            columnDataType: boolean

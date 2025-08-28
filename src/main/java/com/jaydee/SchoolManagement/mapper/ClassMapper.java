@@ -9,7 +9,7 @@ import com.jaydee.SchoolManagement.dto.ClassRequestDTO;
 import com.jaydee.SchoolManagement.dto.ClassResponseDTO;
 import com.jaydee.SchoolManagement.entity.ClassEntity;
 
-@Mapper(componentModel = "spring", uses = {StudentMapper.class, TeacherMapper.class})
+@Mapper(componentModel = "spring")
 public interface ClassMapper {
 
     @Mapping(target = "createAt", ignore = true)

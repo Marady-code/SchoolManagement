@@ -107,13 +107,6 @@ public class StudentController {
 		return ResponseEntity.ok(studentService.findStudentsByGender(genderEnum));
 	}
 
-//	@GetMapping("/search/age-range")
-//	public ResponseEntity<List<StudentResponseDTO>> findStudentsByAgeRange(
-//			@RequestParam Integer ageFrom, 
-//			@RequestParam Integer ageTo) {
-//		return ResponseEntity.ok(studentService.findStudentsByAgeRange(ageFrom, ageTo));
-//	}
-
 	@GetMapping("/search/class")
 	public ResponseEntity<List<StudentResponseDTO>> findStudentsByClass(@RequestParam String className) {
 		return ResponseEntity.ok(studentService.findStudentsByClass(className));
@@ -128,6 +121,13 @@ public class StudentController {
 	public ResponseEntity<List<StudentResponseDTO>> findStudentsByPlace(@RequestParam String place) {
 		return ResponseEntity.ok(studentService.findStudentsByPlace(place));
 	}
+
+//	@GetMapping("/search/age-range")
+//	public ResponseEntity<List<StudentResponseDTO>> findStudentsByAgeRange(
+//			@RequestParam Integer ageFrom, 
+//			@RequestParam Integer ageTo) {
+//		return ResponseEntity.ok(studentService.findStudentsByAgeRange(ageFrom, ageTo));
+//	}
 
 //	@GetMapping("/search/dob-range")
 //	public ResponseEntity<List<StudentResponseDTO>> findStudentsByDateOfBirthRange(

@@ -129,16 +129,6 @@ public class TeacherController {
 		return ResponseEntity.ok(teacherService.findTeachersByClass(className));
 	}
 
-//	@GetMapping("/search/student")
-//	public ResponseEntity<List<TeacherResponseDTO>> findTeachersByStudent(@RequestParam String studentName) {
-//		return ResponseEntity.ok(teacherService.findTeachersByStudent(studentName));
-//	}
-//	
-//	@GetMapping("/active")
-//	public ResponseEntity<List<TeacherResponseDTO>> findActiveTeachers() {
-//		return ResponseEntity.ok(teacherService.findActiveTeachers());
-//	}
-
 	@GetMapping("/search/place")
 	public ResponseEntity<List<TeacherResponseDTO>> findTeachersByPlace(@RequestParam String place) {
 		return ResponseEntity.ok(teacherService.findTeachersByPlace(place));
@@ -148,4 +138,14 @@ public class TeacherController {
 	public ResponseEntity<List<TeacherResponseDTO>> findTeachersByPhoneNumber(@RequestParam String phoneNumber) {
 		return ResponseEntity.ok(teacherService.findTeachersByPhoneNumber(phoneNumber));
 	}
+
+//	@GetMapping("/search/student")
+//	public ResponseEntity<List<TeacherResponseDTO>> findTeachersByStudent(@RequestParam String studentName) {
+//		return ResponseEntity.ok(teacherService.findTeachersByStudent(studentName));
+//	}
+//	
+//	@GetMapping("/active")
+//	public ResponseEntity<List<TeacherResponseDTO>> findActiveTeachers() {
+//		return ResponseEntity.ok(teacherService.findActiveTeachers());
+//	}
 }

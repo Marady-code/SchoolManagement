@@ -1,10 +1,10 @@
 package com.jaydee.SchoolManagement.serviceImpl;
 
-import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jaydee.SchoolManagement.dto.StudentRequestDTO;
@@ -23,11 +23,11 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class StudentServiceImpl implements StudentService{
-	
+public class StudentServiceImpl implements StudentService {
+
 	private final StudentRepository studentRepository;
 	private final StudentMapper studentMapper;
-	
+
 	@Override
 	public StudentResponseDTO create(StudentRequestDTO dto) {
 		Student student = studentMapper.toEntity(dto);
@@ -49,7 +49,7 @@ public class StudentServiceImpl implements StudentService{
 //				.map(studentMapper::toResponseDTO)
 //				.collect(Collectors.toList());
 //	}
-	
+
 	@Override
 	public PageResponse<StudentResponseDTO> getAllStudents(Pageable pageable) {
 		Page<Student> page = studentRepository.findAll(pageable);
@@ -57,21 +57,19 @@ public class StudentServiceImpl implements StudentService{
 		return PageResponse.of(response);
 	}
 
-
-
 	@Override
 	public StudentResponseDTO updateStudent(Long studentId, StudentRequestDTO dto) {
 		Student existing = studentRepository.findById(studentId)
 				.orElseThrow(() -> new ResourceNotFound("Student", studentId));
-				existing.setFirstName(dto.getFirstName());
-				existing.setLastName(dto.getLastName());
-				existing.setGender(dto.getGender());
-				existing.setPhone_number(dto.getPhone_number());
-				existing.setDate_of_birth(dto.getDate_of_birth());
-				existing.setPlace_of_birth(dto.getPlace_of_birth());
-				existing.setCurrent_place(dto.getCurrent_place());
-				existing.setEmergencyPhone(dto.getEmergencyPhone());
-				
+		existing.setFirstName(dto.getFirstName());
+		existing.setLastName(dto.getLastName());
+		existing.setGender(dto.getGender());
+		existing.setPhone_number(dto.getPhone_number());
+		existing.setDate_of_birth(dto.getDate_of_birth());
+		existing.setPlace_of_birth(dto.getPlace_of_birth());
+		existing.setCurrent_place(dto.getCurrent_place());
+		existing.setEmergencyPhone(dto.getEmergencyPhone());
+
 		Student updated = studentRepository.save(existing);
 		return studentMapper.toResponseDTO(updated);
 
@@ -81,7 +79,6 @@ public class StudentServiceImpl implements StudentService{
 	public void deleteStudent(Long studentId) {
 		Student student = studentRepository.findById(studentId)
 				.orElseThrow(() -> new ResourceNotFound("Student", studentId));
-		
 		studentRepository.delete(student);
 	}
 
@@ -89,10 +86,7 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public List<StudentResponseDTO> findStudentsByFilter(StudentFilter filter) {
 		StudentSpec spec = new StudentSpec(filter);
-		return studentRepository.findAll(spec)
-				.stream()
-				.map(studentMapper::toResponseDTO)
-				.collect(Collectors.toList());
+		return studentRepository.findAll(spec).stream().map(studentMapper::toResponseDTO).collect(Collectors.toList());
 	}
 
 	@Override
@@ -152,7 +146,6 @@ public class StudentServiceImpl implements StudentService{
 		return findStudentsByFilter(filter);
 	}
 
-
 //	@Override
 //	public List<StudentResponseDTO> findStudentsByDateOfBirthRange(LocalDate dateFrom, LocalDate dateTo) {
 //		StudentFilter filter = new StudentFilter();
@@ -167,5 +160,38 @@ public class StudentServiceImpl implements StudentService{
 //		filter.setCreatedFrom(dateFrom);
 //		filter.setCreatedTo(dateTo);
 //		return findStudentsByFilter(filter);
+//	}
+
+//	@Override
+//	@Transactional
+//	public void softDeleteStudent(Long studentId) {
+//		// Check if student exists and is not already deleted
+//		studentRepository.findById(studentId)
+//				.orElseThrow(() -> new ResourceNotFound("Student", studentId));
+//		
+//		// Perform soft delete
+//		studentRepository.softDelete(studentId, LocalDateTime.now());
+//	}
+//	
+//	@Override
+//	@Transactional
+//	public StudentResponseDTO restoreStudent(Long studentId) {
+//		// Check if student exists
+//		Student student = studentRepository.findById(studentId)
+//				.orElseThrow(() -> new ResourceNotFound("Student", studentId));
+//		
+//		// Restore the student
+//		studentRepository.restore(studentId);
+//		
+//		// Fetch and return the restored student
+//		return studentMapper.toResponseDTO(student);
+//	}
+//	
+//	@Override
+//	public List<StudentResponseDTO> getAllDeletedStudents() {
+//		return studentRepository.findAllDeleted()
+//				.stream()
+//				.map(studentMapper::toResponseDTO)
+//				.collect(Collectors.toList());
 //	}
 }

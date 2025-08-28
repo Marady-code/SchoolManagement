@@ -3,6 +3,8 @@ package com.jaydee.SchoolManagement.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,6 +38,7 @@ public class Subject {
 	@ManyToMany(mappedBy = "subjects")
 	private List<ClassEntity> classEntities;
 
+	@JsonFormat(pattern = "MMM dd, yyyy 'at' hh:mm a", timezone = "Asia/Phnom_Penh")
 	private LocalDateTime createAt = LocalDateTime.now();
 
 }

@@ -16,6 +16,11 @@ select * from class_subject
 
 select * from teachers_subjects
 
+select * from schedules
+
 ALter table students drop column parent_parent_id
+
+select * from databasechangelog
+select * from databasechangeloglock
 
 

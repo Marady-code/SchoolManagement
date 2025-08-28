@@ -14,7 +14,11 @@ import lombok.Data;
 @Data
 public class TeacherSpec implements Specification<Teacher> {
 
-    private final TeacherFilter teacherFilter;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final TeacherFilter teacherFilter;
     
     public TeacherSpec(TeacherFilter teacherFilter) {
         this.teacherFilter = teacherFilter;
