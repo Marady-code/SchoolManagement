@@ -47,7 +47,8 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public List<ClassResponseDTO> getAll() {
-        return classRepository.findAll().stream()
+        return classRepository.findAll()
+        	.stream()
             .map(classMapper::toResponseDTO)
             .collect(Collectors.toList());
     }
@@ -55,13 +56,8 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public ClassResponseDTO updateClass(Long classId, ClassRequestDTO dto) {
         ClassEntity entity = classRepository.findById(classId)
-            .orElseThrow(() -> new ResourceNotFound("Class not found"));
-        entity.setClassName(dto.getClassName());
-        entity.setRoomNumber(dto.getRoomNumber());
-        entity.setClassDay(dto.getClassDay());
-        entity.setClassTime(dto.getClassTime());
-        entity.setStartDate(dto.getStartDate());
-        // Do not set teacher or students here
+            .orElseThrow(() -> new ResourceNotFound("Class not found"));    
+        classMapper.updateClassFromDto(dto, entity);
         ClassEntity saved = classRepository.save(entity);
         return classMapper.toResponseDTO(saved);
     }
@@ -91,6 +87,9 @@ public class ClassServiceImpl implements ClassService {
             .orElseThrow(() -> new ResourceNotFound("Class not found"));
         Student student = studentRepository.findById(studentId)
             .orElseThrow(() -> new ResourceNotFound("Student not found"));
+        if(student.getClassEntity() != null && student.getClassEntity().getClassId().equals(classId)) {
+        	throw new IllegalArgumentException("This Student already assigned to this class");
+        }
         entity.getStudents().add(student);
         ClassEntity saved = classRepository.save(entity);
         return classMapper.toResponseDTO(saved);

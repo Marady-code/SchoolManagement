@@ -1,6 +1,6 @@
 package com.jaydee.SchoolManagement.entity;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,7 +25,7 @@ public class Attendance {
     private Long attendanceId;
 
     @Column(name = "attendance_date", nullable = false)
-    private LocalDate date;
+    private LocalDateTime date = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

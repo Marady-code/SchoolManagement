@@ -1,14 +1,25 @@
 package com.jaydee.SchoolManagement.exception;
 
-import org.springframework.http.HttpStatus;
+import lombok.Getter;
 
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+@Getter
+public class ApiException extends RuntimeException {
 
-@Data
-@RequiredArgsConstructor
-public class ApiException extends RuntimeException{
+    private static final long serialVersionUID = 1L;
+    private final ErrorCode errorCode;
 
-	private final HttpStatus status;
-	private final String message;
+    public ApiException(ErrorCode errorCode) {
+        super(errorCode.getDefaultMessage());
+        this.errorCode = errorCode;
+    }
+
+    public ApiException(ErrorCode errorCode, String message) {
+        super(message);
+        this.errorCode = errorCode;
+    }
+
+    public ApiException(ErrorCode errorCode, String message, Throwable cause) {
+        super(message, cause);
+        this.errorCode = errorCode;
+    }
 }

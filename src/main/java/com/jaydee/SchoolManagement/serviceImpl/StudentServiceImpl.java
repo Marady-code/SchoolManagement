@@ -3,7 +3,8 @@ package com.jaydee.SchoolManagement.serviceImpl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jaydee.SchoolManagement.dto.StudentRequestDTO;
@@ -16,14 +17,14 @@ import com.jaydee.SchoolManagement.repository.StudentRepository;
 import com.jaydee.SchoolManagement.service.StudentService;
 import com.jaydee.SchoolManagement.specification.StudentFilter;
 import com.jaydee.SchoolManagement.specification.StudentSpec;
+import com.jaydee.SchoolManagement.util.PageResponse;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class StudentServiceImpl implements StudentService{
-	
-	@Autowired
+public class StudentServiceImpl implements StudentService {
+
 	private final StudentRepository studentRepository;
 	private final StudentMapper studentMapper;
 
@@ -41,28 +42,27 @@ public class StudentServiceImpl implements StudentService{
 		return studentMapper.toResponseDTO(student);
 	}
 
+//	@Override
+//	public List<StudentResponseDTO> getAll() {
+//		return studentRepository.findAll()
+//				.stream()
+//				.map(studentMapper::toResponseDTO)
+//				.collect(Collectors.toList());
+//	}
+
 	@Override
-	public List<StudentResponseDTO> getAll() {
-		return studentRepository.findAll()
-				.stream()
-				.map(studentMapper::toResponseDTO)
-				.collect(Collectors.toList());
+	public PageResponse<StudentResponseDTO> getAllStudents(Pageable pageable) {
+		Page<Student> page = studentRepository.findAll(pageable);
+		Page<StudentResponseDTO> response = page.map(studentMapper::toResponseDTO);
+		return PageResponse.of(response);
 	}
 
 	@Override
 	public StudentResponseDTO updateStudent(Long studentId, StudentRequestDTO dto) {
-		Student existing = studentRepository.findById(studentId)
+		Student student = studentRepository.findById(studentId)
 				.orElseThrow(() -> new ResourceNotFound("Student", studentId));
-				existing.setFirstName(dto.getFirstName());
-				existing.setLastName(dto.getLastName());
-				existing.setGender(dto.getGender());
-				existing.setPhone_number(dto.getPhone_number());
-				existing.setDate_of_birth(dto.getDate_of_birth());
-				existing.setPlace_of_birth(dto.getPlace_of_birth());
-				existing.setCurrent_place(dto.getCurrent_place());
-				existing.setEmergencyPhone(dto.getEmergencyPhone());
-				
-		Student updated = studentRepository.save(existing);
+		studentMapper.updateStudentFromDto(dto, student);
+		Student updated = studentRepository.save(student);
 		return studentMapper.toResponseDTO(updated);
 
 	}
@@ -71,7 +71,6 @@ public class StudentServiceImpl implements StudentService{
 	public void deleteStudent(Long studentId) {
 		Student student = studentRepository.findById(studentId)
 				.orElseThrow(() -> new ResourceNotFound("Student", studentId));
-		
 		studentRepository.delete(student);
 	}
 
@@ -79,10 +78,7 @@ public class StudentServiceImpl implements StudentService{
 	@Override
 	public List<StudentResponseDTO> findStudentsByFilter(StudentFilter filter) {
 		StudentSpec spec = new StudentSpec(filter);
-		return studentRepository.findAll(spec)
-				.stream()
-				.map(studentMapper::toResponseDTO)
-				.collect(Collectors.toList());
+		return studentRepository.findAll(spec).stream().map(studentMapper::toResponseDTO).collect(Collectors.toList());
 	}
 
 	@Override
@@ -106,27 +102,13 @@ public class StudentServiceImpl implements StudentService{
 		return findStudentsByFilter(filter);
 	}
 
-//	@Override
-//	public List<StudentResponseDTO> findStudentsByAgeRange(Integer ageFrom, Integer ageTo) {
-//		StudentFilter filter = new StudentFilter();
-//		filter.setAgeFrom(ageFrom);
-//		filter.setAgeTo(ageTo);
-//		return findStudentsByFilter(filter);
-//	}
-
 	@Override
-	public List<StudentResponseDTO> findStudentsByClass(String className) {
+	public List<StudentResponseDTO> findStudentsByAgeRange(Integer ageFrom, Integer ageTo) {
 		StudentFilter filter = new StudentFilter();
-		filter.setClassName(className);
+		filter.setAgeFrom(ageFrom);
+		filter.setAgeTo(ageTo);
 		return findStudentsByFilter(filter);
 	}
-
-//	@Override
-//	public List<StudentResponseDTO> findStudentsByTeacher(String teacherName) {
-//		StudentFilter filter = new StudentFilter();
-//		filter.setTeacherId(null); // This would need to be implemented differently
-//		return findStudentsByFilter(filter);
-//	}
 
 	@Override
 	public List<StudentResponseDTO> findStudentsByPhoneNumber(String phoneNumber) {
@@ -155,6 +137,46 @@ public class StudentServiceImpl implements StudentService{
 //		StudentFilter filter = new StudentFilter();
 //		filter.setCreatedFrom(dateFrom);
 //		filter.setCreatedTo(dateTo);
+//		return findStudentsByFilter(filter);
+//	}
+
+//	@Override
+//	@Transactional
+//	public void softDeleteStudent(Long studentId) {
+//		// Check if student exists and is not already deleted
+//		studentRepository.findById(studentId)
+//				.orElseThrow(() -> new ResourceNotFound("Student", studentId));
+//		
+//		// Perform soft delete
+//		studentRepository.softDelete(studentId, LocalDateTime.now());
+//	}
+//	
+//	@Override
+//	@Transactional
+//	public StudentResponseDTO restoreStudent(Long studentId) {
+//		// Check if student exists
+//		Student student = studentRepository.findById(studentId)
+//				.orElseThrow(() -> new ResourceNotFound("Student", studentId));
+//		
+//		// Restore the student
+//		studentRepository.restore(studentId);
+//		
+//		// Fetch and return the restored student
+//		return studentMapper.toResponseDTO(student);
+//	}
+//	
+//	@Override
+//	public List<StudentResponseDTO> getAllDeletedStudents() {
+//		return studentRepository.findAllDeleted()
+//				.stream()
+//				.map(studentMapper::toResponseDTO)
+//				.collect(Collectors.toList());
+//	}
+	
+//	@Override
+//	public List<StudentResponseDTO> findStudentsByTeacher(String teacherName) {
+//		StudentFilter filter = new StudentFilter();
+//		filter.setTeacherId(null); // This would need to be implemented differently
 //		return findStudentsByFilter(filter);
 //	}
 }

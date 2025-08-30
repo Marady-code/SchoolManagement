@@ -14,7 +14,11 @@ import java.time.LocalTime;
 @Data
 public class TimeTableSpec implements Specification<TimeTable> {
 
-    private final TimeTableFilter timeTableFilter;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final TimeTableFilter timeTableFilter;
     
     public TimeTableSpec(TimeTableFilter timeTableFilter) {
         this.timeTableFilter = timeTableFilter;

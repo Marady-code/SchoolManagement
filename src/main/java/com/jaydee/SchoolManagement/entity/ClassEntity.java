@@ -26,34 +26,33 @@ public class ClassEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "class_id")
 	private Long classId;
-	
+
 	private String className;
-	
+
 	private String roomNumber;
-	
+
 	private String classDay;
-	
+
 	private String classTime;
-	
+
 	private LocalDate startDate;
-	
-	@ManyToMany
-    @JoinTable(
-        name = "class_students",
-        joinColumns = @JoinColumn(name = "class_id"),
-        inverseJoinColumns = @JoinColumn(name = "student_id")
-    )
-    private List<Student> students;
-	
-//	@ManyToMany(mappedBy = "classes")
-//	private Set<Student> students = new HashSet<>();
-	
+
+	@OneToMany
+	@JoinTable(name = "class_students", 
+				joinColumns = @JoinColumn(name = "class_id"), 
+				inverseJoinColumns = @JoinColumn(name = "student_id"))
+	private List<Student> students;
+
 	@ManyToOne
 	@JoinColumn(name = "teacher_id")
 	private Teacher teacher;
-	
+
 	@OneToMany(mappedBy = "classEntity")
 	private List<Attendance> attendances;
-	
+
+	@ManyToMany
+	@JoinTable(name = "class_subject", joinColumns = @JoinColumn(name = "class_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
+	private List<Subject> subjects;
+
 	private LocalDateTime createAt = LocalDateTime.now();
 }

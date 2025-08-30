@@ -13,6 +13,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -54,6 +55,9 @@ public class Teacher {
 	
 	@OneToMany(mappedBy = "recordBy")
 	private List<Attendance> recordedAttendances;
+	
+	@ManyToMany
+	private List<Subject> subjects;
 	
 	private LocalDateTime createAt = LocalDateTime.now();
 	

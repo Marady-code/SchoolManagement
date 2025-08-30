@@ -16,4 +16,6 @@ public class SwaggerConfig {
 						.description("API Documentation for School Application")
 						.version("v1.0"));
 	}
+	
+	//http://localhost:8080/api/swagger-ui.html
 }

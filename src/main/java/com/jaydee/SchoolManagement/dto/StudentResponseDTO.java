@@ -24,4 +24,9 @@ public class StudentResponseDTO {
 	private String phone_number;
 	
 	private String emergencyPhone;
+	
+//	private LocalDate createdAt;
+//	private LocalDate updatedAt;
+//	private LocalDate deletedAt;
+//	private boolean deleted;
 }

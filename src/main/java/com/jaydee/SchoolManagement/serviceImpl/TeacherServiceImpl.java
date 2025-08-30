@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.jaydee.SchoolManagement.dto.TeacherRequestDTO;
@@ -17,12 +19,13 @@ import com.jaydee.SchoolManagement.repository.TeacherRepository;
 import com.jaydee.SchoolManagement.service.TeacherService;
 import com.jaydee.SchoolManagement.specification.TeacherFilter;
 import com.jaydee.SchoolManagement.specification.TeacherSpec;
+import com.jaydee.SchoolManagement.util.PageResponse;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class TeacherServiceImpl implements TeacherService{
+public class TeacherServiceImpl implements TeacherService {
 
 	@Autowired
 	private final TeacherRepository teacherRepository;
@@ -38,34 +41,32 @@ public class TeacherServiceImpl implements TeacherService{
 
 	@Override
 	public TeacherResponseDTO getById(Long teacherId) {
-		Teacher teacher = teacherRepository.findById(teacherId).orElseThrow(() -> new ResourceNotFound("Teacher", teacherId));
-		return teacherMapper.toResponseDTO(teacher);		
+		Teacher teacher = teacherRepository.findById(teacherId)
+				.orElseThrow(() -> new ResourceNotFound("Teacher", teacherId));
+		return teacherMapper.toResponseDTO(teacher);
 	}
 
+//	@Override
+//	public List<TeacherResponseDTO> getAll() {
+//		return teacherRepository.findAll()
+//				.stream()
+//				.map(teacherMapper::toResponseDTO)
+//				.collect(Collectors.toList());
+//	}
+
 	@Override
-	public List<TeacherResponseDTO> getAll() {
-		return teacherRepository.findAll()
-				.stream()
-				.map(teacherMapper::toResponseDTO)
-				.collect(Collectors.toList());
+	public PageResponse<TeacherResponseDTO> getAllTeachers(Pageable pageable) {
+		Page<Teacher> page = teacherRepository.findAll(pageable);
+		Page<TeacherResponseDTO> response = page.map(teacherMapper::toResponseDTO);
+		return PageResponse.of(response);
 	}
 
 	@Override
 	public TeacherResponseDTO updateTeacher(Long teachId, TeacherRequestDTO dto) {
-		Teacher existing = teacherRepository.findById(teachId)
+		Teacher teacher = teacherRepository.findById(teachId)
 				.orElseThrow(() -> new ResourceNotFound("Teacher", teachId));
-				existing.setFirstName(dto.getFirstName());
-				existing.setLastName(dto.getLastName());
-				existing.setGender(dto.getGender());
-				existing.setPhone_number(dto.getPhone_number());
-				existing.setDate_of_birth(dto.getDate_of_birth());
-				existing.setPlace_of_birth(dto.getPlace_of_birth());
-				existing.setCurrent_place(dto.getCurrent_place());
-				existing.setQualification(dto.getQualification());
-				existing.setJoining_date(dto.getJoining_date());
-				existing.setSalary(dto.getSalary());
-		
-		Teacher updated = teacherRepository.save(existing);
+		teacherMapper.updateTeacherFromDto(dto, teacher);
+		Teacher updated = teacherRepository.save(teacher);
 		return teacherMapper.toResponseDTO(updated);
 	}
 
@@ -74,17 +75,14 @@ public class TeacherServiceImpl implements TeacherService{
 		Teacher teacher = teacherRepository.findById(teacherId)
 				.orElseThrow(() -> new ResourceNotFound("Teacher", teacherId));
 		teacherRepository.delete(teacher);
-		
+
 	}
-	
+
 	// New JPA Specification methods
 	@Override
 	public List<TeacherResponseDTO> findTeachersByFilter(TeacherFilter filter) {
 		TeacherSpec spec = new TeacherSpec(filter);
-		return teacherRepository.findAll(spec)
-				.stream()
-				.map(teacherMapper::toResponseDTO)
-				.collect(Collectors.toList());
+		return teacherRepository.findAll(spec).stream().map(teacherMapper::toResponseDTO).collect(Collectors.toList());
 	}
 
 	@Override
@@ -181,4 +179,5 @@ public class TeacherServiceImpl implements TeacherService{
 		filter.setPhoneNumber(phoneNumber);
 		return findTeachersByFilter(filter);
 	}
+
 }

@@ -8,8 +8,8 @@ import lombok.Data;
 
 @Data
 public class AttendanceResponseDTO {
-	
-	private String studentName;	
+
+	private String studentName;
 	private String className;
 	private String teacherName;
 	private LocalDate date;
