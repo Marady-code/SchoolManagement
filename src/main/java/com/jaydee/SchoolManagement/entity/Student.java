@@ -2,9 +2,7 @@ package com.jaydee.SchoolManagement.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -15,7 +13,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
@@ -24,7 +22,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "students")
-@JsonIgnoreProperties({"classes", "studentAttendance"})
+@JsonIgnoreProperties("studentAttendance")
 public class Student {
 
 	@Id
@@ -51,8 +49,8 @@ public class Student {
 	@Size(min = 9, max = 10, message = "phone number must be between from 9 to 10 numbers")
 	private String emergencyPhone;
 
-	@ManyToMany(mappedBy = "students")
-	private Set<ClassEntity> classes = new HashSet<>();
+	@ManyToOne
+	private ClassEntity classEntity;
 
 	@OneToMany(mappedBy = "student")
 	private List<Attendance> studentAttendance;

@@ -8,6 +8,8 @@ import lombok.Data;
 @Data
 public class ClassResponseDTO {
 	
+	private String classId;
+	
 	private String className;
 	
 	private String roomNumber;
@@ -20,5 +22,5 @@ public class ClassResponseDTO {
 	
 	private TeacherResponseDTO teacher;
 	
-	private List<StudentResponseDTO> students;
+	private List<ClassStudentsResponseDTO> students;
 }

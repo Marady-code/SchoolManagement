@@ -29,8 +29,6 @@ public interface StudentService {
 
 	List<StudentResponseDTO> findStudentsByGender(GenderEnum gender);
 
-	List<StudentResponseDTO> findStudentsByClass(String className);
-
 	List<StudentResponseDTO> findStudentsByPhoneNumber(String phoneNumber);
 
 	List<StudentResponseDTO> findStudentsByPlace(String place);

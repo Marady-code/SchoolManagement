@@ -4,12 +4,13 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
 import com.jaydee.SchoolManagement.dto.TeacherRequestDTO;
 import com.jaydee.SchoolManagement.dto.TeacherResponseDTO;
 import com.jaydee.SchoolManagement.entity.Teacher;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TeacherMapper {
 
 	//TeacherRequestDTO toRequestDTO(Teacher teacher);

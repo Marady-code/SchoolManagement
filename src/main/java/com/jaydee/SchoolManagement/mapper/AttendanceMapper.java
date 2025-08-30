@@ -2,12 +2,13 @@ package com.jaydee.SchoolManagement.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
 import com.jaydee.SchoolManagement.dto.AttendanceRequestDTO;
 import com.jaydee.SchoolManagement.dto.AttendanceResponseDTO;
 import com.jaydee.SchoolManagement.entity.Attendance;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AttendanceMapper {
 
     @Mapping(target = "studentName", expression = "java(attendance.getStudent() != null ? attendance.getStudent().getLastName() + \" \" + attendance.getStudent().getFirstName() : null)")

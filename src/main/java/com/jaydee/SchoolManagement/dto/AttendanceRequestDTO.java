@@ -1,6 +1,6 @@
 package com.jaydee.SchoolManagement.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import com.jaydee.SchoolManagement.entity.AttendanceStatus;
 
@@ -11,7 +11,7 @@ public class AttendanceRequestDTO {
 	
 	private Long studentId;	
 	private Long classId;
-	private LocalDate date;
+	private LocalDateTime date = LocalDateTime.now();
 	private AttendanceStatus status;
 	private String remark;
 }

@@ -119,20 +119,6 @@ public class StudentServiceImpl implements StudentService {
 //	}
 
 	@Override
-	public List<StudentResponseDTO> findStudentsByClass(String className) {
-		StudentFilter filter = new StudentFilter();
-		filter.setClassName(className);
-		return findStudentsByFilter(filter);
-	}
-
-//	@Override
-//	public List<StudentResponseDTO> findStudentsByTeacher(String teacherName) {
-//		StudentFilter filter = new StudentFilter();
-//		filter.setTeacherId(null); // This would need to be implemented differently
-//		return findStudentsByFilter(filter);
-//	}
-
-	@Override
 	public List<StudentResponseDTO> findStudentsByPhoneNumber(String phoneNumber) {
 		StudentFilter filter = new StudentFilter();
 		filter.setPhoneNumber(phoneNumber);
@@ -193,5 +179,12 @@ public class StudentServiceImpl implements StudentService {
 //				.stream()
 //				.map(studentMapper::toResponseDTO)
 //				.collect(Collectors.toList());
+//	}
+	
+//	@Override
+//	public List<StudentResponseDTO> findStudentsByTeacher(String teacherName) {
+//		StudentFilter filter = new StudentFilter();
+//		filter.setTeacherId(null); // This would need to be implemented differently
+//		return findStudentsByFilter(filter);
 //	}
 }

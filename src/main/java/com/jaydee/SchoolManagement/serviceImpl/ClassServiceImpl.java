@@ -47,7 +47,8 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public List<ClassResponseDTO> getAll() {
-        return classRepository.findAll().stream()
+        return classRepository.findAll()
+        	.stream()
             .map(classMapper::toResponseDTO)
             .collect(Collectors.toList());
     }
@@ -91,6 +92,9 @@ public class ClassServiceImpl implements ClassService {
             .orElseThrow(() -> new ResourceNotFound("Class not found"));
         Student student = studentRepository.findById(studentId)
             .orElseThrow(() -> new ResourceNotFound("Student not found"));
+        if(student.getClassEntity() != null && student.getClassEntity().getClassId().equals(classId)) {
+        	throw new IllegalArgumentException("This Student already assigned to this class");
+        }
         entity.getStudents().add(student);
         ClassEntity saved = classRepository.save(entity);
         return classMapper.toResponseDTO(saved);

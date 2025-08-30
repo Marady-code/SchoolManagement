@@ -107,17 +107,12 @@ public class StudentController {
 		return ResponseEntity.ok(studentService.findStudentsByGender(genderEnum));
 	}
 
-	@GetMapping("/search/class")
-	public ResponseEntity<List<StudentResponseDTO>> findStudentsByClass(@RequestParam String className) {
-		return ResponseEntity.ok(studentService.findStudentsByClass(className));
-	}
-
 	@GetMapping("/search/phone")
 	public ResponseEntity<List<StudentResponseDTO>> findStudentsByPhoneNumber(@RequestParam String phoneNumber) {
 		return ResponseEntity.ok(studentService.findStudentsByPhoneNumber(phoneNumber));
 	}
 
-	@GetMapping("/search/place")
+	@GetMapping("/search/current_place")
 	public ResponseEntity<List<StudentResponseDTO>> findStudentsByPlace(@RequestParam String place) {
 		return ResponseEntity.ok(studentService.findStudentsByPlace(place));
 	}
