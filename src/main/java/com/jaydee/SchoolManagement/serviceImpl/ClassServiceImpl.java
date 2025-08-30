@@ -56,13 +56,8 @@ public class ClassServiceImpl implements ClassService {
     @Override
     public ClassResponseDTO updateClass(Long classId, ClassRequestDTO dto) {
         ClassEntity entity = classRepository.findById(classId)
-            .orElseThrow(() -> new ResourceNotFound("Class not found"));
-        entity.setClassName(dto.getClassName());
-        entity.setRoomNumber(dto.getRoomNumber());
-        entity.setClassDay(dto.getClassDay());
-        entity.setClassTime(dto.getClassTime());
-        entity.setStartDate(dto.getStartDate());
-        // Do not set teacher or students here
+            .orElseThrow(() -> new ResourceNotFound("Class not found"));    
+        classMapper.updateClassFromDto(dto, entity);
         ClassEntity saved = classRepository.save(entity);
         return classMapper.toResponseDTO(saved);
     }

@@ -117,12 +117,12 @@ public class StudentController {
 		return ResponseEntity.ok(studentService.findStudentsByPlace(place));
 	}
 
-//	@GetMapping("/search/age-range")
-//	public ResponseEntity<List<StudentResponseDTO>> findStudentsByAgeRange(
-//			@RequestParam Integer ageFrom, 
-//			@RequestParam Integer ageTo) {
-//		return ResponseEntity.ok(studentService.findStudentsByAgeRange(ageFrom, ageTo));
-//	}
+	@GetMapping("/search/age-range")
+	public ResponseEntity<List<StudentResponseDTO>> findStudentsByAgeRange(
+			@RequestParam Integer ageFrom, 
+			@RequestParam Integer ageTo) {
+		return ResponseEntity.ok(studentService.findStudentsByAgeRange(ageFrom, ageTo));
+	}
 
 //	@GetMapping("/search/dob-range")
 //	public ResponseEntity<List<StudentResponseDTO>> findStudentsByDateOfBirthRange(

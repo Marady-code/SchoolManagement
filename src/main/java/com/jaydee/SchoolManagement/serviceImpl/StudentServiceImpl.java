@@ -59,18 +59,10 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	public StudentResponseDTO updateStudent(Long studentId, StudentRequestDTO dto) {
-		Student existing = studentRepository.findById(studentId)
+		Student student = studentRepository.findById(studentId)
 				.orElseThrow(() -> new ResourceNotFound("Student", studentId));
-		existing.setFirstName(dto.getFirstName());
-		existing.setLastName(dto.getLastName());
-		existing.setGender(dto.getGender());
-		existing.setPhone_number(dto.getPhone_number());
-		existing.setDate_of_birth(dto.getDate_of_birth());
-		existing.setPlace_of_birth(dto.getPlace_of_birth());
-		existing.setCurrent_place(dto.getCurrent_place());
-		existing.setEmergencyPhone(dto.getEmergencyPhone());
-
-		Student updated = studentRepository.save(existing);
+		studentMapper.updateStudentFromDto(dto, student);
+		Student updated = studentRepository.save(student);
 		return studentMapper.toResponseDTO(updated);
 
 	}
@@ -110,13 +102,13 @@ public class StudentServiceImpl implements StudentService {
 		return findStudentsByFilter(filter);
 	}
 
-//	@Override
-//	public List<StudentResponseDTO> findStudentsByAgeRange(Integer ageFrom, Integer ageTo) {
-//		StudentFilter filter = new StudentFilter();
-//		filter.setAgeFrom(ageFrom);
-//		filter.setAgeTo(ageTo);
-//		return findStudentsByFilter(filter);
-//	}
+	@Override
+	public List<StudentResponseDTO> findStudentsByAgeRange(Integer ageFrom, Integer ageTo) {
+		StudentFilter filter = new StudentFilter();
+		filter.setAgeFrom(ageFrom);
+		filter.setAgeTo(ageTo);
+		return findStudentsByFilter(filter);
+	}
 
 	@Override
 	public List<StudentResponseDTO> findStudentsByPhoneNumber(String phoneNumber) {

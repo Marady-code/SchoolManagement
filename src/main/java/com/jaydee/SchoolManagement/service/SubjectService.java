@@ -23,4 +23,5 @@ public interface SubjectService {
 	List<SubjectResponseDTO> findBySubjectName(String subjectName);
 	
 	List<SubjectResponseDTO> findBySubjectCode(String code);
+	
 }

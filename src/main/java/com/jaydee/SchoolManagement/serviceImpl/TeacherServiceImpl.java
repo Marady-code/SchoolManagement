@@ -63,20 +63,10 @@ public class TeacherServiceImpl implements TeacherService {
 
 	@Override
 	public TeacherResponseDTO updateTeacher(Long teachId, TeacherRequestDTO dto) {
-		Teacher existing = teacherRepository.findById(teachId)
+		Teacher teacher = teacherRepository.findById(teachId)
 				.orElseThrow(() -> new ResourceNotFound("Teacher", teachId));
-		existing.setFirstName(dto.getFirstName());
-		existing.setLastName(dto.getLastName());
-		existing.setGender(dto.getGender());
-		existing.setPhone_number(dto.getPhone_number());
-		existing.setDate_of_birth(dto.getDate_of_birth());
-		existing.setPlace_of_birth(dto.getPlace_of_birth());
-		existing.setCurrent_place(dto.getCurrent_place());
-		existing.setQualification(dto.getQualification());
-		existing.setJoining_date(dto.getJoining_date());
-		existing.setSalary(dto.getSalary());
-
-		Teacher updated = teacherRepository.save(existing);
+		teacherMapper.updateTeacherFromDto(dto, teacher);
+		Teacher updated = teacherRepository.save(teacher);
 		return teacherMapper.toResponseDTO(updated);
 	}
 

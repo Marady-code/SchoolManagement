@@ -2,7 +2,10 @@ package com.jaydee.SchoolManagement.mapper;
 
 import java.util.List;
 
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 
 import com.jaydee.SchoolManagement.dto.SubjectRequestDTO;
@@ -17,4 +20,7 @@ public interface SubjectMapper {
 	SubjectResponseDTO toResponseDTO(Subject subject);
 	
 	List<SubjectResponseDTO> toDtoList(List<Subject> subjects);
+	
+	@BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+	void updateSubjectFromDto(SubjectRequestDTO dto, @MappingTarget Subject subject);
 }

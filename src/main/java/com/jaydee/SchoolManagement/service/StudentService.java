@@ -32,9 +32,10 @@ public interface StudentService {
 	List<StudentResponseDTO> findStudentsByPhoneNumber(String phoneNumber);
 
 	List<StudentResponseDTO> findStudentsByPlace(String place);
+	
+	List<StudentResponseDTO> findStudentsByAgeRange(Integer ageFrom, Integer ageTo);
 
 //	List<StudentResponseDTO> findStudentsByTeacher(String teacherName);
-//	List<StudentResponseDTO> findStudentsByAgeRange(Integer ageFrom, Integer ageTo);
 //	List<StudentResponseDTO> findStudentsByDateOfBirthRange(LocalDate dateFrom, LocalDate dateTo);
 //	List<StudentResponseDTO> findStudentsByCreationDateRange(LocalDate dateFrom, LocalDate dateTo);
 

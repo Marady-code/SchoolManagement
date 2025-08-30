@@ -49,7 +49,7 @@ public class SubjectController {
 		return ResponseEntity.ok(subjectService.findSubjectsByFilter(filter));
 	}
 	
-	@GetMapping("/search")
+	@GetMapping("/search/name")
 	public ResponseEntity<List<SubjectResponseDTO>> findBySubjectName(@RequestParam String subjectName){
 		List<SubjectResponseDTO> response = subjectService.findBySubjectName(subjectName);
 		return ResponseEntity.ok(response);
@@ -58,6 +58,12 @@ public class SubjectController {
 	@GetMapping("/{subjectId}")
 	public ResponseEntity<SubjectResponseDTO> getById(@PathVariable Long subjectId){
 		SubjectResponseDTO response = subjectService.getSubjectById(subjectId);
+		return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping("/search/subjectCode")
+	public ResponseEntity<List<SubjectResponseDTO>> getByCode(@RequestParam String code){
+		List<SubjectResponseDTO> response = subjectService.findBySubjectCode(code);
 		return ResponseEntity.ok(response);
 	}
 	

@@ -1,4 +1,4 @@
-select * from teachers
+select * from teachers where teachers.salary <=300
 
 select * from students
 

@@ -54,10 +54,7 @@ public class SubjectServiceImpl implements SubjectService {
 			throw new IllegalArgumentException("Subject with this code already exists");
 		}
 		
-		subject.setSubjectName(requestDTO.getSubjectName());
-		subject.setCode(requestDTO.getCode());
-		subject.setDescription(requestDTO.getDescription());
-		
+		subjectMapper.updateSubjectFromDto(requestDTO, subject);
 		Subject updated = subjectRepository.save(subject);
 		return subjectMapper.toResponseDTO(updated);
 	}
