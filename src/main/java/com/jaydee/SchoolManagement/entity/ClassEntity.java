@@ -54,5 +54,8 @@ public class ClassEntity {
 	@JoinTable(name = "class_subject", joinColumns = @JoinColumn(name = "class_id"), inverseJoinColumns = @JoinColumn(name = "subject_id"))
 	private List<Subject> subjects;
 
+	@OneToMany
+	private List<TimeTable> timeTables;
+	
 	private LocalDateTime createAt = LocalDateTime.now();
 }

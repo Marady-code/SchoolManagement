@@ -54,6 +54,9 @@ public class Student {
 
 	@OneToMany(mappedBy = "student")
 	private List<Attendance> studentAttendance;
+	
+	@OneToMany
+	private List<TimeTable> timeTables;
 
 	private LocalDateTime createAt = LocalDateTime.now();
 }

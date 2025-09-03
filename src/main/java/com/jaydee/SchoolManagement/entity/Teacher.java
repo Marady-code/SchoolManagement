@@ -59,6 +59,9 @@ public class Teacher {
 	@ManyToMany
 	private List<Subject> subjects;
 	
+	@OneToMany
+	private List<TimeTable> timeTables;
+ 	
 	private LocalDateTime createAt = LocalDateTime.now();
 	
 }
